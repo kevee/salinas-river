@@ -19,11 +19,10 @@
             { saturation: -80 }
           ]
         },{
-          featureType: "road.arterial",
-          elementType: "geometry",
+          featureType: "road",
+          elementType: "all",
           stylers: [
-            { hue: "#00ffee" },
-            { saturation: 50 }
+            { hue: "#aaaaaa" }
           ]
         },{
           featureType: "poi.business",
@@ -37,7 +36,7 @@
           elementType: "all",
           styles: [
             { hue: "#4d90fe" },
-            { saturation: 50 }
+            { saturation: 90 }
           ]
         },
         {
@@ -45,13 +44,13 @@
           elementType: "all",
           styles: [
             { hue: "#B27800" },
-            { saturation: 50 }
+            { saturation: 90 }
           ]
         }
       ]
     },
 
-    riverKml: 'http://kevee.org/salinas-river/data/river.kml',
+    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=3',
 
     overlayBounds : new google.maps.LatLngBounds(
       new google.maps.LatLng( 36.739173, -122.023154),
