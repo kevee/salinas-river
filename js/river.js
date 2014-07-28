@@ -11,8 +11,47 @@
       zoom: 9,
       disableDefaultUI: true,
       streetViewControl: true,
-      mapTypeId: google.maps.MapTypeId.TERRAIN
+      mapTypeId: google.maps.MapTypeId.TERRAIN,
+      styles: [
+        {
+          featureType: "all",
+          stylers: [
+            { saturation: -80 }
+          ]
+        },{
+          featureType: "road.arterial",
+          elementType: "geometry",
+          stylers: [
+            { hue: "#00ffee" },
+            { saturation: 50 }
+          ]
+        },{
+          featureType: "poi.business",
+          elementType: "labels",
+          stylers: [
+            { visibility: "off" }
+          ]
+        },
+        {
+          featureType: "water",
+          elementType: "all",
+          styles: [
+            { hue: "#4d90fe" },
+            { saturation: 50 }
+          ]
+        },
+        {
+          featureType: "landscape.natural",
+          elementType: "all",
+          styles: [
+            { hue: "#B27800" },
+            { saturation: 50 }
+          ]
+        }
+      ]
     },
+
+    riverKml: 'http://kevee.org/salinas-river/data/river.kml',
 
     overlayBounds : new google.maps.LatLngBounds(
       new google.maps.LatLng( 36.739173, -122.023154),
@@ -24,30 +63,6 @@
       this.createMap();
       this.addOverlay();
       this.loadPoints();
-      this.addArt();
-    },
-
-    addArt : function() {
-      var that = this;
-      $.getJSON('data/art.json', function(art) {
-        $.each(art.features, function(index, feature) {
-          var latLng = new google.maps.LatLng(feature.geometry.coordinates[1],
-            feature.geometry.coordinates[0]
-          );
-          var icon = {
-            size: new google.maps.Size(80, 80),
-            url: 'img/markers/' + feature.properties.marker
-          }
-          var marker = new google.maps.Marker({
-            position: latLng,
-            map: that.map,
-            icon: icon
-          });
-          google.maps.event.addListener(marker, 'click', function() {
-            $('#description').html('<img class="art" src="img/art/' + feature.properties.img + '"/>');
-          });
-        });
-      });
     },
 
     addOverlay : function() {
@@ -55,6 +70,10 @@
       'img/overlay.png',
           this.overlayBounds);
       this.mapOverlay.setMap(this.map);
+      var riverLayer = new google.maps.KmlLayer({
+        url: this.riverKml
+      });
+      riverLayer.setMap(this.map);
     },
 
     loadPoints : function() {
