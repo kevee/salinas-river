@@ -14,37 +14,29 @@
       mapTypeId: google.maps.MapTypeId.TERRAIN,
       styles: [
         {
-          featureType: "all",
+          featureType: "landscape",
           stylers: [
-            { saturation: -80 }
+            { hue: "#A8CC18" },
+            { saturation: -60 }
           ]
         },{
           featureType: "road",
           elementType: "all",
           stylers: [
-            { hue: "#aaaaaa" }
+            { hue: "#aaaaaa" },
+            { saturation: -70 }
           ]
         },{
-          featureType: "poi.business",
+          featureType: "poi",
           elementType: "labels",
           stylers: [
             { visibility: "off" }
           ]
-        },
-        {
-          featureType: "water",
-          elementType: "all",
-          styles: [
-            { hue: "#4d90fe" },
-            { saturation: 90 }
-          ]
-        },
-        {
-          featureType: "landscape.natural",
-          elementType: "all",
-          styles: [
-            { hue: "#B27800" },
-            { saturation: 90 }
+        },{
+          featureType: "administrative.locality",
+          elementType: "geometry",
+          stylers: [
+            { hue: "#FF6250" }
           ]
         }
       ]
@@ -59,14 +51,79 @@
 
     infoWindow : {},
 
+    tourPoints : {},
+
+    currentTourPoint : 0,
+
     init : function() {
+      var that = this;
       this.resize();
       this.createMap();
-      this.addOverlay();
-      this.loadPoints();
+      this.addOverlay(function() {
+        if($('#map-front').hasClass('tour')) {
+          that.addTour();
+        }
+        else {
+          that.loadPoints();
+        }
+      });
     },
 
-    addOverlay : function() {
+    addTour : function() {
+      var that = this;
+      $.getJSON('data/tour.json', function(data) {
+        that.tourPoints = data.features;
+        that.currentTourPoint = 0;
+        if(window.location.hash.length) {
+          that.currentTourPoint = parseInt(window.location.hash.replace('#', ''));
+        }
+        that.showCurrentPoint();
+        that.updateMoveButtons();
+      });
+      $('.move').on('click', function(event) {
+        event.preventDefault();
+        if($(this).hasClass('disabled')) {
+          return;
+        }
+        if($(this).data('direction') == 'forward') {
+          that.currentTourPoint++;
+        }
+        else {
+          that.currentTourPoint--;
+        }
+        window.location.hash = '#' + that.currentTourPoint;
+        that.showCurrentPoint();
+        that.updateMoveButtons();
+      });
+    },
+
+    updateMoveButtons : function() {
+      if(typeof this.tourPoints[this.currentTourPoint + 1] === 'undefined') {
+        $('#next').addClass('disabled');
+      }
+      else {
+        $('#next').removeClass('disabled');
+      }
+      if(typeof this.tourPoints[this.currentTourPoint - 1] === 'undefined') {
+        $('#previous').addClass('disabled');
+      }
+      else {
+        $('#previous').removeClass('disabled');
+      }
+    },
+
+    showCurrentPoint : function() {
+      var point = this.tourPoints[this.currentTourPoint],
+          latLng = new google.maps.LatLng( point.geometry.coordinates[1], point.geometry.coordinates[0] );
+      this.map.panTo(latLng);
+      this.map.setZoom(11);
+      this.infoWindow.setContent('<h3>' + point.properties.title + '</h3>' + '<p>' + point.properties.description + '</p>');
+      var anchor = new google.maps.MVCObject();
+      anchor.set("position", latLng);
+      this.infoWindow.open(this.map, anchor);
+    },
+
+    addOverlay : function(callback) {
       this.mapOverlay = new google.maps.GroundOverlay(
       'img/overlay.png',
           this.overlayBounds);
@@ -74,6 +131,7 @@
       var riverLayer = new google.maps.KmlLayer({
         url: this.riverKml
       });
+      riverLayer.addListener('status_changed', callback);
       riverLayer.setMap(this.map);
       this.map.setZoom(this.mapOptions.zoom);
       this.map.setCenter(this.mapOptions.center);

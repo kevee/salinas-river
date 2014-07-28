@@ -226,10 +226,12 @@ body {
 h1 {
   font-family: 'Londrina Outline', cursive;
   font-size: 2.5em;
+  color: #FF6250;
+  font-weight: bold;
 }
 
 a {
-  color: #3b559a;
+  color: #378DFF;
   font-weight: bold;
 }
 
@@ -283,4 +285,11 @@ ul.navigation li {
   display: inline;
   padding: 0;
   margin-right: 15px;
+}
+
+
+.move.disabled {
+  color: #aaa;
+  text-decoration: none;
+  cursor: default;
 }
