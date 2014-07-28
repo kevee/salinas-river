@@ -149,7 +149,7 @@
         var anchor = new google.maps.MVCObject();
 				anchor.set("position", event.latLng);
 				that.infoWindow.setOptions({
-          pixelOffset: google.maps.Size(0, -20)
+          pixelOffset: new google.maps.Size(0, -40)
         });
         that.infoWindow.open(that.map, anchor);
       });
