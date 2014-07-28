@@ -250,6 +250,17 @@ a {
   width: 30%;
 }
 
+#personnel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(255,255,255,0.8);
+  z-index: 100;
+  padding: 15px;
+  width: 100%;
+  overflow: scroll;
+}
+
 #description h1, #description p {
   margin: 5px 0;
 }

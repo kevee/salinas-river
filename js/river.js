@@ -10,7 +10,6 @@
       center: new google.maps.LatLng(36.268597, -121.213735),
       zoom: 9,
       disableDefaultUI: true,
-      streetViewControl: true,
       mapTypeId: google.maps.MapTypeId.TERRAIN,
       styles: [
         {
@@ -42,7 +41,7 @@
       ]
     },
 
-    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=8',
+    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=9',
 
     overlayBounds : new google.maps.LatLngBounds(
       new google.maps.LatLng( 36.739173, -122.023154),
@@ -63,7 +62,7 @@
         if($('#map-front').hasClass('tour')) {
           that.addTour();
         }
-        else {
+        if($('#map-front').hasClass('front')) {
           that.loadPoints();
         }
       });
@@ -116,7 +115,7 @@
       var point = this.tourPoints[this.currentTourPoint],
           latLng = new google.maps.LatLng( point.geometry.coordinates[1], point.geometry.coordinates[0] );
       this.map.panTo(latLng);
-      this.map.setZoom(11);
+      this.map.setZoom(13);
       this.infoWindow.setContent('<h3>' + point.properties.title + '</h3>' + '<p>' + point.properties.description + '</p>');
       var anchor = new google.maps.MVCObject();
       anchor.set("position", latLng);
@@ -124,6 +123,7 @@
     },
 
     addOverlay : function(callback) {
+      var that = this;
       this.mapOverlay = new google.maps.GroundOverlay(
       'img/overlay.png',
           this.overlayBounds);
@@ -131,10 +131,14 @@
       var riverLayer = new google.maps.KmlLayer({
         url: this.riverKml
       });
-      riverLayer.addListener('status_changed', callback);
+      riverLayer.addListener('status_changed', function(thing) {
+        if(typeof callback !== 'undefined') {
+          callback();
+        }
+        //that.map.setZoom(this.mapOptions.zoom);
+        //that.map.setCenter(this.mapOptions.center);
+      });
       riverLayer.setMap(this.map);
-      this.map.setZoom(this.mapOptions.zoom);
-      this.map.setCenter(this.mapOptions.center);
     },
 
     loadPoints : function() {
@@ -144,7 +148,10 @@
         that.infoWindow.setContent('<h3>' + event.feature.getProperty('title') + '</h3>' + '<p>' + event.feature.getProperty('description') + '</p>');
         var anchor = new google.maps.MVCObject();
 				anchor.set("position", event.latLng);
-				that.infoWindow.open(that.map, anchor);
+				that.infoWindow.setOptions({
+          pixelOffset: google.maps.Size(0, -20)
+        });
+        that.infoWindow.open(that.map, anchor);
       });
     },
 
@@ -157,7 +164,7 @@
 
     resize: function() {
       $(window).on('resize', function() {
-        $('#map-front').css('width', $(window).width() + 'px')
+        $('#map-front, #personnel').css('width', $(window).width() + 'px')
                        .css('height', $(window).height() + 'px');
       });
       $(window).trigger('resize');
