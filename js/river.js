@@ -50,12 +50,14 @@
       ]
     },
 
-    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=3',
+    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=4',
 
     overlayBounds : new google.maps.LatLngBounds(
       new google.maps.LatLng( 36.739173, -122.023154),
       new google.maps.LatLng( 35.986948, -120.871307)
     ),
+
+    infoWindow : {},
 
     init : function() {
       this.resize();
@@ -76,15 +78,21 @@
     },
 
     loadPoints : function() {
+      var that = this;
       this.map.data.loadGeoJson('data/points.json');
       this.map.data.addListener('mouseup', function(event) {
-        $('#description h1').html(event.feature.getProperty('title'));
-        $('#description p').html(event.feature.getProperty('description'));
+        that.infoWindow.setContent('<h3>' + event.feature.getProperty('title') + '</h3>' + '<p>' + event.feature.getProperty('description') + '</p>');
+        var anchor = new google.maps.MVCObject();
+				anchor.set("position", event.latLng);
+				that.infoWindow.open(that.map, anchor);
       });
     },
 
     createMap : function() {
       this.map = new google.maps.Map($("#map-front").get(0), this.mapOptions);
+      this.infoWindow = new google.maps.InfoWindow({
+	      content: ""
+	  	});
     },
 
     resize: function() {
