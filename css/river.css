@@ -273,8 +273,11 @@ a {
     left: 0;
     background: #fff;
     z-index: 100;
-    padding: 5px;
+    padding: 10px;
     width: 100%;
+  }
+  body .close {
+    right: 20px;
   }
 }
 
@@ -304,4 +307,40 @@ ul.navigation li {
   color: #aaa;
   text-decoration: none;
   cursor: default;
+}
+
+.close {
+  background: none;
+  border: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-weight: bold;
+  font-size: 20px;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.tempeh-ruben {
+  position: absolute;
+  display: none;
+  bottom: 30px;
+  left: 30px;
+  background: rgba(255,255,255,0.6);
+  z-index: 100;
+  border: 0;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+  background: #000;
+}
+
+.icon-bar+.icon-bar {
+  margin-top: 4px;
 }

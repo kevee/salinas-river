@@ -10,6 +10,7 @@
       center: new google.maps.LatLng(36.268597, -121.213735),
       zoom: 9,
       disableDefaultUI: true,
+      zoomControl: true,
       mapTypeId: google.maps.MapTypeId.TERRAIN,
       styles: [
         {
@@ -41,7 +42,7 @@
       ]
     },
 
-    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=10',
+    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=11',
 
     overlayBounds : new google.maps.LatLngBounds(
       new google.maps.LatLng( 36.739173, -122.023154),
@@ -58,6 +59,7 @@
       var that = this;
       this.resize();
       this.createMap();
+      this.bindClose();
       this.addOverlay(function() {
         if($('#map-front').hasClass('tour')) {
           that.addTour();
@@ -65,6 +67,17 @@
         if($('#map-front').hasClass('front')) {
           that.loadPoints();
         }
+      });
+    },
+
+    bindClose : function() {
+      $('.close').on('click', function() {
+        $(this).parents('.closeable').hide();
+        $('.tempeh-ruben').show();
+      });
+      $('.tempeh-ruben').on('click', function() {
+        $(this).hide();
+        $('.closeable').show();
       });
     },
 
