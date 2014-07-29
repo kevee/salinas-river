@@ -165,8 +165,6 @@
         if(typeof callback !== 'undefined') {
           callback();
         }
-        //that.map.setZoom(this.mapOptions.zoom);
-        //that.map.setCenter(this.mapOptions.center);
       });
       riverLayer.setMap(this.map);
     },
@@ -200,22 +198,12 @@
           }
         });
       });
-      /*this.map.data.addListener('mouseup', function(event) {
-        if(event.feature.getProperty('photo') !== 'undefined') {
-
-        }
-        else {
-          var anchor = new google.maps.MVCObject();
-  				anchor.set("position", event.latLng);
-  				that.infoWindow.setOptions({
-            pixelOffset: new google.maps.Size(0, -40)
-          });
-          that.infoWindow.open(that.map, anchor);
-        }
-      });*/
     },
 
     createMap : function() {
+      if($(window).width() < 800) {
+        mapOptions.zoomControl = false;
+      }
       this.map = new google.maps.Map($("#map-front").get(0), this.mapOptions);
       this.infoWindow = new google.maps.InfoWindow({
 	      content: ""

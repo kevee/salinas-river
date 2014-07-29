@@ -12,7 +12,7 @@ body {
 
 h1 {
   font-family: 'Montserrat', "Helvetica Neue", Arial, Helvetica, sans-serif;
-  font-size: 2.5em;
+  font-size: 2.2em;
   color: #FF6250;
   font-weight: bold;
   line-height: normal;
@@ -103,7 +103,7 @@ ul.navigation li {
   top: 0;
   right: 0;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
   color: #646464;
   cursor: pointer;
 }
