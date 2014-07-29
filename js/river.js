@@ -41,7 +41,7 @@
       ]
     },
 
-    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=9',
+    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=10',
 
     overlayBounds : new google.maps.LatLngBounds(
       new google.maps.LatLng( 36.739173, -122.023154),
