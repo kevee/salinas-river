@@ -201,9 +201,6 @@
     },
 
     createMap : function() {
-      if($(window).width() < 800) {
-        mapOptions.zoomControl = false;
-      }
       this.map = new google.maps.Map($("#map-front").get(0), this.mapOptions);
       this.infoWindow = new google.maps.InfoWindow({
 	      content: ""
