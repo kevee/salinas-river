@@ -15,9 +15,9 @@
       },
       camera : {
         url: 'img/icons/camera.png',
-        scaledSize: new google.maps.Size(48, 40),
+        scaledSize: new google.maps.Size(30, 24),
         origin: new google.maps.Point(0,0),
-        anchor: new google.maps.Point(24, 20)
+        anchor: new google.maps.Point(12, 15)
       }
     },
 

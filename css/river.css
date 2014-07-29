@@ -38,6 +38,10 @@ a {
   width: 30%;
 }
 
+#description.tour {
+  width: 20%;
+}
+
 #personnel {
   position: absolute;
   top: 0;
@@ -61,7 +65,7 @@ a {
     background: #fff;
     z-index: 100;
     padding: 10px;
-    width: 100%;
+    width: 100% !important;
   }
   body .close {
     right: 20px;
@@ -89,6 +93,13 @@ ul.navigation li {
   margin-right: 15px;
 }
 
+.move {
+  font-size: 3em;
+}
+
+.move.next {
+  float: right;
+}
 
 .move.disabled {
   color: #aaa;
