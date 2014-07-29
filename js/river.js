@@ -6,6 +6,21 @@
 
     mapOverlay : {},
 
+    icons : {
+      default : {
+        url: 'img/icons/marker.png',
+        scaledSize: new google.maps.Size(30, 40),
+        origin: new google.maps.Point(0,0),
+        anchor: new google.maps.Point(0, 15)
+      },
+      camera : {
+        url: 'img/icons/camera.png',
+        scaledSize: new google.maps.Size(48, 40),
+        origin: new google.maps.Point(0,0),
+        anchor: new google.maps.Point(24, 20)
+      }
+    },
+
     mapOptions : {
       center: new google.maps.LatLng(36.268597, -121.213735),
       zoom: 9,
@@ -42,6 +57,8 @@
       ]
     },
 
+    points : {},
+
     riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=11',
 
     overlayBounds : new google.maps.LatLngBounds(
@@ -71,7 +88,7 @@
     },
 
     bindClose : function() {
-      $('.close').on('click', function() {
+      $('.closer').on('click', function() {
         $(this).parents('.closeable').hide();
         $('.tempeh-ruben').show();
       });
@@ -156,16 +173,46 @@
 
     loadPoints : function() {
       var that = this;
-      this.map.data.loadGeoJson('data/points.json');
-      this.map.data.addListener('mouseup', function(event) {
-        that.infoWindow.setContent('<h3>' + event.feature.getProperty('title') + '</h3>' + '<p>' + event.feature.getProperty('description') + '</p>');
-        var anchor = new google.maps.MVCObject();
-				anchor.set("position", event.latLng);
-				that.infoWindow.setOptions({
-          pixelOffset: new google.maps.Size(0, -40)
+      $.getJSON('data/points.json', function(data) {
+        that.points = data.features;
+        $.each(that.points, function(index, feature) {
+          var latLng = new google.maps.LatLng(this.geometry.coordinates[1], this.geometry.coordinates[0]);
+          var icon = (typeof this.properties.icon !== 'undefined') ? this.properties.icon : 'default';
+          var marker = new google.maps.Marker({
+              position: latLng,
+              map: that.map,
+              title: this.properties.title,
+              icon: that.icons[icon]
+          });
+          if(typeof feature.properties.photo !== 'undefined') {
+            google.maps.event.addListener(marker, 'click', function() {
+              var $image = $('<img>').attr('src', 'img/' + feature.properties.photo);
+              $('#modal .modal-title').html(feature.properties.title);
+              $('#modal .modal-body').html($image);
+              $('#modal').modal();
+            });
+          }
+          else {
+            google.maps.event.addListener(marker, 'click', function() {
+              that.infoWindow.setContent('<h4>' + feature.properties.title + '</h4>' + '<p>' + feature.properties.description + '</p>');
+              that.infoWindow.open(that.map, marker);
+            });
+          }
         });
-        that.infoWindow.open(that.map, anchor);
       });
+      /*this.map.data.addListener('mouseup', function(event) {
+        if(event.feature.getProperty('photo') !== 'undefined') {
+
+        }
+        else {
+          var anchor = new google.maps.MVCObject();
+  				anchor.set("position", event.latLng);
+  				that.infoWindow.setOptions({
+            pixelOffset: new google.maps.Size(0, -40)
+          });
+          that.infoWindow.open(that.map, anchor);
+        }
+      });*/
     },
 
     createMap : function() {

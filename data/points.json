@@ -45,6 +45,22 @@
           35.902399875143615
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Canoes",
+        "photo": "art/canoe.jpg",
+        "description": "The end of the Salinas River",
+        "icon": "camera"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -121.80335998535158,
+          36.74768773190056
+        ]
+      }
     }
   ]
 }
