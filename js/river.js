@@ -32,7 +32,7 @@
           featureType: "landscape",
           stylers: [
             { hue: "#A8CC18" },
-            { saturation: -60 }
+            { saturation: -80 }
           ]
         },{
           featureType: "road",
@@ -192,8 +192,10 @@
           }
           else {
             google.maps.event.addListener(marker, 'click', function() {
-              that.infoWindow.setContent('<h4>' + feature.properties.title + '</h4>' + '<p>' + feature.properties.description + '</p>');
-              that.infoWindow.open(that.map, marker);
+              var $image = $('<img>').attr('src', 'img/' + feature.properties.photo);
+              $('#modal .modal-title').html(feature.properties.title);
+              $('#modal .modal-body').html(feature.properties.description);
+              $('#modal').modal();
             });
           }
         });
