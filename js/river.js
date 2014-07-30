@@ -29,37 +29,139 @@
       mapTypeId: google.maps.MapTypeId.TERRAIN,
       styles: [
         {
-          featureType: "landscape",
-          stylers: [
-            { hue: "#A8CC18" },
-            { saturation: -80 }
-          ]
-        },{
-          featureType: "road",
-          elementType: "all",
-          stylers: [
-            { hue: "#aaaaaa" },
-            { saturation: -70 }
-          ]
-        },{
-          featureType: "poi",
-          elementType: "labels",
-          stylers: [
-            { visibility: "off" }
-          ]
-        },{
-          featureType: "administrative.locality",
-          elementType: "geometry",
-          stylers: [
-            { hue: "#FF6250" }
-          ]
+            "featureType": "administrative",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "landscape",
+            "stylers": [
+                {
+                    "visibility": "simplified"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "stylers": [
+                {
+                    "visibility": "on"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "stylers": [
+                {
+                    "color": "#5f94ff"
+                },
+                {
+                    "lightness": 26
+                },
+                {
+                    "gamma": 5.86
+                }
+            ]
+        },
+        {},
+        {
+            "featureType": "road.highway",
+            "stylers": [
+                {
+                    "weight": 0.6
+                },
+                {
+                    "saturation": -85
+                },
+                {
+                    "lightness": 61
+                }
+            ]
+        },
+        {
+            "featureType": "road"
+        },
+        {},
+        {
+            "featureType": "landscape",
+            "stylers": [
+                {
+                    "hue": "#0066ff"
+                },
+                {
+                    "saturation": 74
+                },
+                {
+                    "lightness": 100
+                }
+            ]
         }
-      ]
+    ]
     },
 
     points : {},
 
-    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=11',
+    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=13',
 
     overlayBounds : new google.maps.LatLngBounds(
       new google.maps.LatLng( 36.739173, -122.023154),
