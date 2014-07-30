@@ -24,7 +24,7 @@
 			<color>00ffffff</color>
 		</LineStyle>
 		<PolyStyle>
-			<color>80ff2a00</color>
+			<color>ccecbc46</color>
 		</PolyStyle>
 	</Style>
 	<Style id="s_ylw-pushpin_hl">
@@ -39,7 +39,7 @@
 			<color>00ffffff</color>
 		</LineStyle>
 		<PolyStyle>
-			<color>80ff2a00</color>
+			<color>ccecbc46</color>
 		</PolyStyle>
 	</Style>
 	<Style id="sn_ylw-pushpin">
@@ -54,7 +54,7 @@
 			<color>00ffffff</color>
 		</LineStyle>
 		<PolyStyle>
-			<color>80ff2a00</color>
+			<color>ccecbc46</color>
 		</PolyStyle>
 	</Style>
 	<Style id="s_ylw-pushpin">
@@ -69,7 +69,7 @@
 			<color>00ffffff</color>
 		</LineStyle>
 		<PolyStyle>
-			<color>80ff2a00</color>
+			<color>ccecbc46</color>
 		</PolyStyle>
 	</Style>
 	<Style id="sh_ylw-pushpin0">
@@ -84,7 +84,7 @@
 			<color>00ffffff</color>
 		</LineStyle>
 		<PolyStyle>
-			<color>80ff2a00</color>
+			<color>ccecbc46</color>
 		</PolyStyle>
 	</Style>
 	<StyleMap id="msn_ylw-pushpin0">
@@ -119,7 +119,7 @@
 			<color>00ffffff</color>
 		</LineStyle>
 		<PolyStyle>
-			<color>80ff2a00</color>
+			<color>ccecbc46</color>
 		</PolyStyle>
 	</Style>
 	<Folder>
