@@ -10,12 +10,20 @@ body {
   background-color: white;
 }
 
+#carousel {
+  display: none;
+}
+
 h1 {
   font-family: 'Montserrat', "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 2.2em;
   color: #FF6250;
   font-weight: bold;
   line-height: normal;
+}
+
+.slider-down {
+  display: none;
 }
 
 .full-photo h1 {
@@ -111,6 +119,11 @@ a {
     font-size: 2em;
     float: right;
     color: #fff;
+  }
+
+  .tempeh-ruben {
+    top: auto !important;
+    bottom: 30px;
   }
 
   body .close {

@@ -75,6 +75,33 @@
           36.42891382457865
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "title": "Slideshow test",
+        "slideshow": [
+          {
+            "photo": "art/mud.jpg",
+            "caption": "Mud!"
+          },
+          {
+            "photo": "art/tubes.jpg",
+            "caption": "Tubing the Nas!"
+          },
+          {
+            "photo": "art/canoe.jpg",
+            "caption": "A canoe!"
+          }
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -121.168212890625,
+          36.24870331653198
+        ]
+      }
     }
   ]
 }

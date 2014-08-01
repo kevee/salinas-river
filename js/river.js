@@ -27,7 +27,6 @@
       center: new google.maps.LatLng(36.268597, -121.213735),
       zoom: 9,
       disableDefaultUI: true,
-      zoomControl: true,
       mapTypeId: google.maps.MapTypeId.TERRAIN,
       styles: [
         {
@@ -289,7 +288,7 @@
           if(typeof feature.properties.photo !== 'undefined') {
             google.maps.event.addListener(marker, 'click', function() {
               that.setMarker(marker);
-              var $link = $('<a href="#modal">');
+              var $link = $('<a>');
               var $image = $('<img>').attr('src', 'img/' + feature.properties.photo);
               $('.description-title').html(feature.properties.title);
               $('.description-body').html($link.append($image)).append(feature.properties.description);
@@ -302,19 +301,48 @@
             });
           }
           else {
-            google.maps.event.addListener(marker, 'click', function() {
-              var $image = $('<img>').attr('src', 'img/' + feature.properties.photo);
-              $('.description-title').html(feature.properties.title);
-              $('.description-body').html(feature.properties.description);
-              that.setMarker(marker);
-            });
+            if(typeof feature.properties.slideshow !== 'undefined') {
+              google.maps.event.addListener(marker, 'click', function() {
+                var first = feature.properties.slideshow[0];
+                var $link = $('<a>');
+                var $image = $('<img>').attr('src', 'img/' + first.photo);
+                $('.description-title').html(feature.properties.title);
+                $('.description-body').html($link.append($image));
+                $('#carousel .carousel-indicators li').remove();
+                $.each(feature.properties.slideshow, function(index) {
+                  var active = (index == 0) ? 'active' : '';
+                  $('#carousel .carousel-indicators').append('<li data-target="#carousel" data-slide-to="' + index + '" class="' + active + '"></li>');
+                  $('#carousel .carousel-inner').append('<div class="item '+ active +'"><img src="img/' + this.photo + '"/><div class="carousel-caption"><p>'+ this.caption +'</p></div>');
+                });
+                $image.on('click', function() {
+                  $('#modal .modal-title').html(feature.properties.title);
+                  $('#modal').modal();
+                  $('#carousel').show().carousel();
+                });
+              });
+            }
+            else {
+              google.maps.event.addListener(marker, 'click', function() {
+                $('.description-title').html(feature.properties.title);
+                $('.description-body').html(feature.properties.description);
+                that.setMarker(marker);
+              });
+            }
+          }
+          if(window.location.hash.length > 0) {
+            var hashLocation = window.location.hash.replace('#', '').split(',');
+            if(hashLocation[0] == latLng.lat() && hashLocation[1] == latLng.lng()) {
+              google.maps.event.trigger(marker, 'click');
+            }
           }
         });
       });
     },
 
     setMarker : function(marker) {
-      this.map.setCenter(marker.getPosition());
+      var position = marker.getPosition();
+      window.location.hash = '#' +  position.lat() +','+ position.lng();
+      this.map.setCenter(position);
     },
 
     createMap : function() {
@@ -343,7 +371,10 @@
     if($('#map-front').length) {
       frontMap.init();
     }
-    if($('#description').hasClass('front')) {
+    if($('#description').hasClass('front') && window.location.hash.length > 0) {
+        $('#description').removeClass('full-photo');
+    }
+    if($('#description').hasClass('front') && window.location.hash.length == 0) {
       var originalHeight = $('#description').height();
       $('#description .closer').hide();
       if($(window).width() <= 750) {
@@ -352,6 +383,7 @@
             height: $(window).height() * .8
         }, 1000);
         $('#map-front, #description .slider-down').on('click', function() {
+          $('#description h1, #description p').remove();
           $('#description').removeClass('full-photo');
           $('#description .slider-down').remove();
           $('#description .closer').show();

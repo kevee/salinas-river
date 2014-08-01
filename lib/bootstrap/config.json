@@ -371,12 +371,17 @@
   },
   "css": [
     "grid.less",
+    "tables.less",
     "forms.less",
     "buttons.less",
     "responsive-utilities.less",
     "glyphicons.less",
     "button-groups.less",
     "input-groups.less",
+    "thumbnails.less",
+    "responsive-embed.less",
+    "close.less",
+    "component-animations.less",
     "modals.less",
     "carousel.less"
   ],
@@ -384,5 +389,5 @@
     "carousel.js",
     "modal.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=ff0786fc535c3b1db906"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=19f5a14d0d063f2d971a"
 }
