@@ -18,6 +18,16 @@ title: Salinas River
       <a href="tour.html">Tour</a>
     </li>
   </ul>
+  <div class="row">
+    <div class="col-md-4 col-md-offset-6">
+      <div class="blogs">
+        {% for post in site.posts limit 4 %}
+          <h3><a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></h3>
+          <div class="preview">{{ post.subtitle}}</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
   <h3 class="description-title"></h3>
   <div class="description-body"></div>
 </div>
