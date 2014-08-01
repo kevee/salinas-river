@@ -18,6 +18,10 @@ h1 {
   line-height: normal;
 }
 
+.full-photo h1 {
+  font-size: 3em;
+}
+
 a {
   color: #378DFF;
   font-weight: bold;
@@ -30,16 +34,32 @@ a {
 
 #description {
   position: absolute;
-  bottom: 30px;
-  left: 30px;
-  background: rgba(255,255,255,0.6);
+  top: 0px;
+  left: 0px;
+  background: rgba(255,255,255,0.9);
   z-index: 100;
   padding: 15px;
   width: 30%;
+  box-shadow: 0 15px 20px rgba(0,0,0,0.8);
 }
 
 #description.tour {
   width: 20%;
+}
+
+#description .slider {
+  background: transparent;
+  border: none;
+  font-size: 2em;
+  float: right;
+  color: #fff;
+}
+
+#description.full-photo {
+  background-image: url(../img/cover.jpg);
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 #personnel {
@@ -122,7 +142,7 @@ ul.navigation li {
 .tempeh-ruben {
   position: absolute;
   display: none;
-  bottom: 30px;
+  top: 30px;
   left: 30px;
   background: rgba(255,255,255,0.6);
   z-index: 100;
@@ -143,6 +163,6 @@ ul.navigation li {
   margin-top: 4px;
 }
 
-#modal .modal-body img {
+#modal .modal-body img, .description-body img {
   width: 100%;
 }

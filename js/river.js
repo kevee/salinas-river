@@ -6,6 +6,8 @@
 
     mapOverlay : {},
 
+    currentMarker : false,
+
     icons : {
       default : {
         url: 'img/icons/marker.png',
@@ -286,22 +288,33 @@
           });
           if(typeof feature.properties.photo !== 'undefined') {
             google.maps.event.addListener(marker, 'click', function() {
+              that.setMarker(marker);
+              var $link = $('<a href="#modal">');
               var $image = $('<img>').attr('src', 'img/' + feature.properties.photo);
-              $('#modal .modal-title').html(feature.properties.title);
-              $('#modal .modal-body').html($image);
-              $('#modal').modal();
+              $('.description-title').html(feature.properties.title);
+              $('.description-body').html($link.append($image)).append(feature.properties.description);
+
+              $image.on('click', function() {
+                $('#modal .modal-title').html(feature.properties.title);
+                $('#modal .modal-body').html($image.clone());
+                $('#modal').modal();
+              });
             });
           }
           else {
             google.maps.event.addListener(marker, 'click', function() {
               var $image = $('<img>').attr('src', 'img/' + feature.properties.photo);
-              $('#modal .modal-title').html(feature.properties.title);
-              $('#modal .modal-body').html(feature.properties.description);
-              $('#modal').modal();
+              $('.description-title').html(feature.properties.title);
+              $('.description-body').html(feature.properties.description);
+              that.setMarker(marker);
             });
           }
         });
       });
+    },
+
+    setMarker : function(marker) {
+      this.map.setCenter(marker.getPosition());
     },
 
     createMap : function() {
@@ -315,6 +328,7 @@
       $(window).on('resize', function() {
         $('#map-front, #personnel').css('width', $(window).width() + 'px')
                        .css('height', $(window).height() + 'px');
+        $('#description, #full-photo').css('height', $(window).height() + 'px');
       });
       $(window).trigger('resize');
     }
@@ -323,6 +337,24 @@
   $(document).ready(function() {
     if($('#map-front').length) {
       frontMap.init();
+    }
+    if($('#description').hasClass('front')) {
+      var originalWidth = $('#description').css('width');
+      $('#description .closer').hide();
+      $('#description').animate({
+          width: '80%'
+      }, 1000);
+      $('#map-front, #description .slider').on('click', function() {
+        $('#description').removeClass('full-photo');
+        $('#description .slider').remove();
+        $('#description .closer').show();
+        $('#description').animate({
+            width: originalWidth
+        }, 1000);
+        $('#description').animate({
+            'background-image': 'none'
+        }, 1000);
+      });
     }
   });
 })(jQuery, google);
