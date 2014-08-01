@@ -298,6 +298,7 @@
                 $('#modal .modal-body').html($image.clone());
                 $('#modal').modal();
               });
+              that.handleMobile();
             });
           }
           else {
@@ -319,6 +320,7 @@
                   $('#modal').modal();
                   $('#carousel').show().carousel();
                 });
+                that.handleMobile();
               });
             }
             else {
@@ -327,6 +329,7 @@
                 $('.description-body').html(feature.properties.description);
                 that.setMarker(marker);
               });
+              that.handleMobile();
             }
           }
           if(window.location.hash.length > 0) {
@@ -337,6 +340,12 @@
           }
         });
       });
+    },
+
+    handleMobile : function() {
+      if($(window).width() > 750) {
+        return;
+      }
     },
 
     setMarker : function(marker) {
@@ -383,12 +392,12 @@
             height: $(window).height() * .8
         }, 1000);
         $('#map-front, #description .slider-down').on('click', function() {
-          $('#description h1, #description p').remove();
+          $('#description').find('h1, p, ul').remove();
           $('#description').removeClass('full-photo');
           $('#description .slider-down').remove();
           $('#description .closer').show();
           $('#description').animate({
-              height: originalHeight
+              height: '40px'
           }, 1000);
         });
         return;
