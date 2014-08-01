@@ -328,7 +328,12 @@
       $(window).on('resize', function() {
         $('#map-front, #personnel').css('width', $(window).width() + 'px')
                        .css('height', $(window).height() + 'px');
-        $('#description, #full-photo').css('height', $(window).height() + 'px');
+        if($(window).width() > 750) {
+          $('#description, #full-photo').css('height', $(window).height() + 'px');
+        }
+        else {
+          $('#description, #full-photo').css('height', 'auto');
+        }
       });
       $(window).trigger('resize');
     }
@@ -339,8 +344,24 @@
       frontMap.init();
     }
     if($('#description').hasClass('front')) {
-      var originalWidth = $('#description').css('width');
+      var originalHeight = $('#description').height();
       $('#description .closer').hide();
+      if($(window).width() <= 750) {
+        $('#description .slider-down').show();
+        $('#description').animate({
+            height: $(window).height() * .8
+        }, 1000);
+        $('#map-front, #description .slider-down').on('click', function() {
+          $('#description').removeClass('full-photo');
+          $('#description .slider-down').remove();
+          $('#description .closer').show();
+          $('#description').animate({
+              height: originalHeight
+          }, 1000);
+        });
+        return;
+      }
+      var originalWidth = $('#description').css('width');
       $('#description').animate({
           width: '80%'
       }, 1000);
@@ -350,9 +371,6 @@
         $('#description .closer').show();
         $('#description').animate({
             width: originalWidth
-        }, 1000);
-        $('#description').animate({
-            'background-image': 'none'
         }, 1000);
       });
     }
