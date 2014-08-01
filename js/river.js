@@ -307,6 +307,7 @@
                 var first = feature.properties.slideshow[0];
                 var $link = $('<a>');
                 var $image = $('<img>').attr('src', 'img/' + first.photo);
+                $link.append('<span class="glyphicon glyphicon-play-circle slideshow-play"></span>');
                 $('.description-title').html(feature.properties.title);
                 $('.description-body').html($link.append($image));
                 $('#carousel .carousel-indicators li').remove();
@@ -328,8 +329,8 @@
                 $('.description-title').html(feature.properties.title);
                 $('.description-body').html(feature.properties.description);
                 that.setMarker(marker);
+                that.handleMobile();
               });
-              that.handleMobile();
             }
           }
           if(window.location.hash.length > 0) {
@@ -346,6 +347,26 @@
       if($(window).width() > 750) {
         return;
       }
+      $('#description .title').remove();
+      $('#description').css('height', $('#description .description-title').height() + 30 + 'px');
+      $('#description .slider-up').show().on('click', function() {
+        if($(this).hasClass('no-slide-down')) {
+          $('#description').animate({
+              height: $(window).height() * .1
+          }, 1000);
+          $(this).find('span.glyphicon').removeClass('glyphicon-chevron-down')
+          .addClass('glyphicon-chevron-up');
+          $(this).removeClass('no-slide-down');
+        }
+        else {
+          $('#description').animate({
+              height: $('#description .description-title').height() + 30 + 'px'
+          }, 1000);
+          $(this).find('span.glyphicon').removeClass('glyphicon-chevron-up')
+          .addClass('glyphicon-chevron-down');
+          $(this).addClass('no-slide-down');
+        }
+      });
     },
 
     setMarker : function(marker) {
@@ -395,7 +416,6 @@
           $('#description').find('h1, p, ul').remove();
           $('#description').removeClass('full-photo');
           $('#description .slider-down').remove();
-          $('#description .closer').show();
           $('#description').animate({
               height: '40px'
           }, 1000);

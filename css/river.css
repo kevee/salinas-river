@@ -20,6 +20,10 @@ body {
   padding-left: 15px;
 }
 
+.slider-up {
+  display: none;
+}
+
 #carousel {
   display: none;
 }
@@ -126,7 +130,7 @@ a {
     display: none;
   }
 
-  #description .slider-down {
+  #description .slider-down, #description .slider-up {
     display: none;
     background: transparent;
     border: none;
@@ -135,6 +139,11 @@ a {
     color: #fff;
   }
 
+  body #description .slider-up {
+    color: #646464;
+  }
+
+
   .tempeh-ruben {
     top: auto !important;
     bottom: 30px;
@@ -142,6 +151,10 @@ a {
 
   body .close {
     right: 20px;
+  }
+
+  .closer {
+    display: none;
   }
 }
 
