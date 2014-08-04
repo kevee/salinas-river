@@ -305,7 +305,7 @@
             if(typeof feature.properties.slideshow !== 'undefined') {
               google.maps.event.addListener(marker, 'click', function() {
                 var first = feature.properties.slideshow[0];
-                var $link = $('<a>');
+                var $link = $('<a class="slideshow-link">');
                 var $image = $('<img>').attr('src', 'img/' + first.photo);
                 $link.append('<span class="glyphicon glyphicon-play-circle slideshow-play"></span>');
                 $('.description-title').html(feature.properties.title);
@@ -316,7 +316,7 @@
                   $('#carousel .carousel-indicators').append('<li data-target="#carousel" data-slide-to="' + index + '" class="' + active + '"></li>');
                   $('#carousel .carousel-inner').append('<div class="item '+ active +'"><img src="img/' + this.photo + '"/><div class="carousel-caption"><p>'+ this.caption +'</p></div>');
                 });
-                $image.on('click', function() {
+                $link.on('click', function() {
                   $('#modal .modal-title').html(feature.properties.title);
                   $('#modal').modal();
                   $('#carousel').show().carousel();
@@ -372,7 +372,7 @@
     setMarker : function(marker) {
       var position = marker.getPosition();
       window.location.hash = '#' +  position.lat() +','+ position.lng();
-      this.map.setCenter(position);
+      this.center(position);
     },
 
     createMap : function() {
@@ -386,6 +386,7 @@
       $(window).on('resize', function() {
         $('#map-front, #personnel').css('width', $(window).width() + 'px')
                        .css('height', $(window).height() + 'px');
+        $('.map').css('width')
         if($(window).width() > 750) {
           $('#description, #full-photo').css('height', $(window).height() + 'px');
         }
@@ -394,6 +395,22 @@
         }
       });
       $(window).trigger('resize');
+    },
+
+    center : function(latLng) {
+      var offsetx = $('#description').width() - 100;
+      var offsety = 0;
+      var point1 = this.map.getProjection().fromLatLngToPoint(
+          (latLng instanceof google.maps.LatLng) ? latLng : this.map.getCenter()
+      );
+      var point2 = new google.maps.Point(
+          ( (typeof(offsetx) == 'number' ? offsetx : 0) / Math.pow(2, this.map.getZoom()) ) || 0,
+          ( (typeof(offsety) == 'number' ? offsety : 0) / Math.pow(2, this.map.getZoom()) ) || 0
+      );
+      this.map.setCenter(this.map.getProjection().fromPointToLatLng(new google.maps.Point(
+          point1.x - point2.x,
+          point1.y + point2.y
+      )));
     }
   };
 
@@ -416,9 +433,7 @@
           $('#description').find('h1, p, ul').remove();
           $('#description').removeClass('full-photo');
           $('#description .slider-down').remove();
-          $('#description').animate({
-              height: '40px'
-          }, 1000);
+          $('#description').css('height', '40px');
         });
         return;
       }
@@ -430,9 +445,7 @@
         $('#description').removeClass('full-photo');
         $('#description .slider').remove();
         $('#description .closer').show();
-        $('#description').animate({
-            width: originalWidth
-        }, 1000);
+        $('#description').css('width', originalWidth);
       });
     }
   });

@@ -232,3 +232,18 @@ ul.navigation li {
 #modal .modal-body img, .description-body img {
   width: 100%;
 }
+
+.slideshow-link {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+.slideshow-play {
+  position: absolute;
+  top: 40%;
+  left: 43%;
+  margin: 0 auto;
+  color: #fff;
+  font-size: 3em;
+}
