@@ -38,6 +38,11 @@ h1 {
 
 nav.navbar-salinas .navbar-brand {
   color: #FF6250;
+  border-right: 1px solid #fff;
+}
+
+nav.navbar-salinas .navbar-brand:hover {
+  color: #A8CC18;
 }
 
 nav.navbar-salinas {
@@ -50,8 +55,8 @@ nav.navbar-salinas .navbar-nav>li>a {
   color: #fff;
 }
 
-nav.navbar-salinas .navbar-nav>li>a:hover {
-  color: #aaa;
+nav.navbar-salinas .navbar-nav>li>a:hover, nav.navbar-salinas .navbar-nav>li>a:focus, {
+  color: #A8CC18;
 }
 
 .slider-down {
