@@ -226,6 +226,7 @@
         window.location.hash = '#' + that.currentTourPoint;
         that.showCurrentPoint();
         that.updateMoveButtons();
+        that.handleMobile();
       });
     },
 
@@ -348,25 +349,8 @@
         return;
       }
       $('#description .title').remove();
-      $('#description').css('height', $('#description .description-title').height() + 30 + 'px');
-      $('#description .slider-up').show().on('click', function() {
-        if($(this).hasClass('no-slide-down')) {
-          $('#description').animate({
-              height: $(window).height() * .1
-          }, 1000);
-          $(this).find('span.glyphicon').removeClass('glyphicon-chevron-down')
-          .addClass('glyphicon-chevron-up');
-          $(this).removeClass('no-slide-down');
-        }
-        else {
-          $('#description').animate({
-              height: $('#description .description-title').height() + 30 + 'px'
-          }, 1000);
-          $(this).find('span.glyphicon').removeClass('glyphicon-chevron-up')
-          .addClass('glyphicon-chevron-down');
-          $(this).addClass('no-slide-down');
-        }
-      });
+      $('#description').addClass('description-short')
+      $('#description .slider-up').show();
     },
 
     setMarker : function(marker) {
@@ -384,14 +368,11 @@
 
     resize: function() {
       $(window).on('resize', function() {
-        $('#map-front, #personnel').css('width', $(window).width() + 'px')
-                       .css('height', $(window).height() + 'px');
+        $('#map-front, .basic-page-wrapper').css('width', $(window).width() + 'px')
+                       .css('height', ($(window).height() - $('nav.navbar').height()) + 'px');
         $('.map').css('width')
         if($(window).width() > 750) {
-          $('#description, #full-photo').css('height', $(window).height() + 'px');
-        }
-        else {
-          $('#description, #full-photo').css('height', 'auto');
+          $('#description, #full-photo').css('height', ($(window).height() - $('nav.navbar').height()) + 'px');
         }
       });
       $(window).trigger('resize');
@@ -414,13 +395,60 @@
     }
   };
 
+  var contactForm = {
+    init : function() {
+      $('#contact').on('submit', this.sendMail);
+    },
+
+    sendMail: function() {
+      $.ajax({
+        type: "POST",
+        url: "https://mandrillapp.com/api/1.0/messages/send.json",
+        data: {
+          'key': '7gpqkvVsRPh7IFYy0XiAZw',
+          'message': {
+            'from_email': $('#email').val(),
+            'to': [
+                {
+                  'email': 'kevin@csumb.edu',
+                  'type': 'to'
+                }
+              ],
+            'autotext': 'true',
+            'subject': 'Contact form',
+            'html': $('#message').val()
+          }
+        }
+       }).done(function(response) {
+         console.log(response); // if you're into that sorta thing
+       });
+    }
+  }
+
   $(document).ready(function() {
     if($('#map-front').length) {
       frontMap.init();
     }
+    if($('#contact').length) {
+      contactForm.init();
+    }
     if($('#description').hasClass('front') && window.location.hash.length > 0) {
         $('#description').removeClass('full-photo');
     }
+    $('#description .slider-up').on('click', function() {
+      if($('#description').hasClass('description-short')) {
+        $('#description').removeClass('description-short');
+        $(this).find('span.glyphicon')
+               .removeClass('glyphicon-chevron-down')
+               .addClass('glyphicon-chevron-up');
+      }
+      else {
+        $('#description').addClass('description-short');
+        $(this).find('span.glyphicon')
+               .removeClass('glyphicon-chevron-up')
+               .addClass('glyphicon-chevron-down');
+      }
+    });
     if($('#description').hasClass('front') && window.location.hash.length == 0) {
       var originalHeight = $('#description').height();
       $('#description .closer').hide();
@@ -430,10 +458,13 @@
             height: $(window).height() * .8
         }, 1000);
         $('#map-front, #description .slider-down').on('click', function() {
+          if(!$('#description').hasClass('full-photo')) {
+            return;
+          }
           $('#description').find('h1, p, ul').remove();
           $('#description').removeClass('full-photo');
           $('#description .slider-down').remove();
-          $('#description').css('height', '40px');
+          $('#description').css('height', 'inherit');
         });
         return;
       }

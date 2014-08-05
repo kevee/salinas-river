@@ -36,6 +36,16 @@ h1 {
   line-height: normal;
 }
 
+nav.navbar-salinas {
+  font-family: 'Montserrat', "Helvetica Neue", Arial, Helvetica, sans-serif;
+  background: rgba(0,0,0,0.9);
+  color: #fff;
+}
+
+nav.navbar-salinas .navbar-nav>li>a {
+  color: #fff;
+}
+
 .slider-down {
   display: none;
 }
@@ -61,7 +71,6 @@ a {
 
 #description {
   position: absolute;
-  top: 0px;
   left: 0px;
   background: rgba(255,255,255,0.9);
   z-index: 100;
@@ -89,9 +98,8 @@ a {
   background-size: cover;
 }
 
-#personnel {
+.basic-page-wrapper {
   position: absolute;
-  top: 0;
   left: 0;
   background: rgba(255,255,255,0.8);
   z-index: 100;
@@ -104,6 +112,17 @@ a {
   margin: 5px 0;
 }
 
+.description-short .description-body {
+  display: none;
+}
+
+.description-body a {
+  cursor: pointer;
+}
+
+.navbar-salinas {
+  margin-bottom: 0;
+}
 
 @media (max-width: 750px) {
   body #description {
@@ -155,6 +174,15 @@ a {
 
   .closer {
     display: none;
+  }
+
+  body .modal-content {
+    border: 0;
+    border-radius: 0;
+  }
+
+  body .modal-dialog {
+    margin: 0;
   }
 }
 

@@ -370,18 +370,19 @@
     "@hr-border": "@gray-lighter"
   },
   "css": [
+    "print.less",
+    "type.less",
     "grid.less",
     "tables.less",
     "forms.less",
     "buttons.less",
-    "responsive-utilities.less",
     "glyphicons.less",
     "button-groups.less",
     "input-groups.less",
-    "thumbnails.less",
-    "responsive-embed.less",
+    "navs.less",
+    "navbar.less",
+    "alerts.less",
     "close.less",
-    "component-animations.less",
     "modals.less",
     "carousel.less"
   ],
@@ -389,5 +390,5 @@
     "carousel.js",
     "modal.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=19f5a14d0d063f2d971a"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=c3f0b65fae90d35b9e1a"
 }
