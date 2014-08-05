@@ -36,6 +36,10 @@ h1 {
   line-height: normal;
 }
 
+nav.navbar-salinas .navbar-brand {
+  color: #FF6250;
+}
+
 nav.navbar-salinas {
   font-family: 'Montserrat', "Helvetica Neue", Arial, Helvetica, sans-serif;
   background: rgba(0,0,0,0.9);
@@ -44,6 +48,10 @@ nav.navbar-salinas {
 
 nav.navbar-salinas .navbar-nav>li>a {
   color: #fff;
+}
+
+nav.navbar-salinas .navbar-nav>li>a:hover {
+  color: #aaa;
 }
 
 .slider-down {
@@ -236,7 +244,7 @@ ul.navigation li {
 .tempeh-ruben {
   position: absolute;
   display: none;
-  top: 30px;
+  top: 60px;
   left: 30px;
   background: rgba(255,255,255,0.6);
   z-index: 100;

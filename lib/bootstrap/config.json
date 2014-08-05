@@ -383,6 +383,7 @@
     "navbar.less",
     "alerts.less",
     "close.less",
+    "component-animations.less",
     "modals.less",
     "carousel.less"
   ],
@@ -390,5 +391,5 @@
     "carousel.js",
     "modal.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=c3f0b65fae90d35b9e1a"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=5ced4e3661cb54be86cf"
 }
