@@ -1,6 +1,7 @@
 (function($, google, Handlebars) {
 
-  var prismic = 'https://salinas-river.prismic.io/api/documents/search?ref=U-ElWDIAAC0AZ8Wm&q=';
+  var prismic = 'https://salinas-river.prismic.io/api/documents/search?ref=';
+  var currentRef = '';
 
   var frontMap = {
 
@@ -265,6 +266,10 @@
             that.centerOnPoint($(this).data('id'));
             $('#cover-photo').remove();
           });
+          if(window.location.hash.search('point/') > -1) {
+            var id = window.location.hash.replace('#point/', '');
+            $('ul.points [data-id=' + id + ']').trigger('click');
+          }
         });
       });
     },
@@ -387,27 +392,31 @@
   }
 
   $(document).ready(function() {
-    if($('#map-front').length) {
-      frontMap.init();
-    }
-    if($('#contact').length) {
-      contactForm.init();
-    }
-    if($('#page-template').length) {
-      regularPage.init();
-    }
-    $('#cover-photo .close').on('click', function(event) {
-      event.preventDefault();
-      $('#cover-photo').animate({
-        height: '0px',
-      }, 500, function() {
-        $('#cover-photo').remove();
+    $.getJSON('https://salinas-river.prismic.io/api', function(data) {
+      prismic = prismic + data.refs[0].ref + '&q=';
+
+      if($('#map-front').length) {
+        frontMap.init();
+      }
+      if($('#contact').length) {
+        contactForm.init();
+      }
+      if($('#page-template').length) {
+        regularPage.init();
+      }
+      $('#cover-photo .close').on('click', function(event) {
+        event.preventDefault();
+        $('#cover-photo').animate({
+          height: '0px',
+        }, 500, function() {
+          $('#cover-photo').remove();
+        });
       });
-    });
-    $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
-    $(window).on('resize', function() {
       $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
+      $(window).on('resize', function() {
+        $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
+      });
+      $(window).trigger('resize');
     });
-    $(window).trigger('resize');
   });
 })(jQuery, google, Handlebars);
