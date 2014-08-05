@@ -1,6 +1,6 @@
 (function($, google, Handlebars) {
 
-  var prismic = 'https://salinas-river.prismic.io/api/documents/search?ref=';
+  var prismicEndpoint = 'https://salinas-river.prismic.io/api';
   var currentRef = '';
 
   var frontMap = {
@@ -232,44 +232,46 @@
 
     loadPoints : function() {
       var that = this;
-      $.getJSON(prismic + '%5B%5B%3Ad+%3D+at(document.type%2C+"place")%5D%5D', function(data) {
-        that.points = data.results;
-        var pointSidebar = [];
-        $.each(that.points, function() {
-          var data = this.data.place;
-          var id = this.id
-          var latLng = new google.maps.LatLng(data.position.value.latitude, data.position.value.longitude);
-          var icon = (typeof this.data.place.image !== 'undefined') ? 'camera' : 'default';
-          var marker = new google.maps.Marker({
-              position: latLng,
-              map: that.map,
-              title: (typeof data.name !== 'undefined') ? data.name.value : '',
-              icon: that.icons[icon]
-          });
-          google.maps.event.addListener(marker, 'click', function() {
-            $('ul.points [data-id='+ id +']').trigger('click');
-          });
-          pointSidebar.push({
-            id : this.id,
-            name: data.name.value,
-            teaser: data.shortDescription.value
-          });
-          var source   = $("#points-template").html();
-          var template = Handlebars.compile(source);
-          $('#description').html(template({points : pointSidebar }));
-          $('ul.points a').on('click', function(event) {
-            $('.page').remove();
-            if($(this).parents('.current').length) {
-              event.preventDefault();
-              that.openPointPage($(this).data('id'));
+      Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
+        api.form('everything').ref('U-EpiTIAAC0AZ84Y').query('[[:d = at(document.type, "place")]]').submit(function(error, documents) {
+          that.points = documents.results;
+          var pointSidebar = [];
+          $.each(that.points, function() {
+            var data = this.fragments;
+            var id = this.id
+            var latLng = new google.maps.LatLng(data['place.position'].value.latitude, data['place.position'].value.longitude);
+            var icon = (typeof data['place.image'] !== 'undefined') ? 'camera' : 'default';
+            var marker = new google.maps.Marker({
+                position: latLng,
+                map: that.map,
+                icon: that.icons[icon]
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+              $('ul.points [data-id='+ id +']').trigger('click');
+            });
+
+            pointSidebar.push({
+              id : this.id,
+              name: data['place.name'].value,
+              teaser: data['place.shortDescription'].value,
+            });
+            var source   = $("#points-template").html();
+            var template = Handlebars.compile(source);
+            $('#description').html(template({points : pointSidebar }));
+            $('ul.points a').on('click', function(event) {
+              $('.page').remove();
+              if($(this).parents('.current').length) {
+                event.preventDefault();
+                that.openPointPage($(this).data('id'));
+              }
+              that.centerOnPoint($(this).data('id'));
+              $('#cover-photo').remove();
+            });
+            if(window.location.hash.search('point/') > -1) {
+              var id = window.location.hash.replace('#point/', '');
+              $('ul.points [data-id=' + id + ']').trigger('click');
             }
-            that.centerOnPoint($(this).data('id'));
-            $('#cover-photo').remove();
           });
-          if(window.location.hash.search('point/') > -1) {
-            var id = window.location.hash.replace('#point/', '');
-            $('ul.points [data-id=' + id + ']').trigger('click');
-          }
         });
       });
     },
@@ -281,7 +283,12 @@
         if(this.id == id) {
           var source   = $("#point-page-template").html();
           var template = Handlebars.compile(source);
-          $page.html(template(this));
+          var point = {
+            name : this.fragments['place.name'].value,
+            content : (typeof this.getStructuredText('place.description') !== 'undefined') ? this.getStructuredText('place.description').asHtml() : '',
+            sound : this.getText('place.soundcloud')
+          }
+          $page.html(template(point));
         }
       });
       $('body').append($page);
@@ -295,8 +302,8 @@
       var that = this;
       $.each(this.points, function() {
         if(this.id == id) {
-          var data = this.data.place;
-          var latLng = new google.maps.LatLng(data.position.value.latitude, data.position.value.longitude);
+          var data = this.fragments;
+          var latLng = new google.maps.LatLng(data['place.position'].value.latitude, data['place.position'].value.longitude);
           that.center(latLng);
         }
       });
@@ -381,42 +388,45 @@
     init : function() {
       var that = this;
       this.id = window.location.hash.replace('#', '');
-      $.getJSON(prismic + '%5B%5B%3Ad+%3D+at(document.id%2C+"' + this.id +'")%5D%5D', function(data) {
-        that.page = data.results[0];
-        var source   = $("#page-template").html();
-        var template = Handlebars.compile(source);
-        $('#page-wrapper').html(template(that.page));
-        $(window).trigger('resize');
+      Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
+        api.form('everything').ref('U-EpiTIAAC0AZ84Y').query('[[:d = at(document.id, "' + that.id +'")]]').submit(function(error, document) {
+          var doc = document.results[0];
+          var source   = $("#page-template").html();
+          var template = Handlebars.compile(source);
+          console.log(doc);
+          $('#page-wrapper').html(template({
+            content : doc.getStructuredText('page.description').asHtml(),
+            title : doc.fragments['page.name'].value,
+            coverPhoto: doc.getImage('page.headingImage').main.url
+          }));
+          $(window).trigger('resize');
+        });
       });
     }
   }
 
   $(document).ready(function() {
-    $.getJSON('https://salinas-river.prismic.io/api', function(data) {
-      prismic = prismic + data.refs[0].ref + '&q=';
-
-      if($('#map-front').length) {
-        frontMap.init();
-      }
-      if($('#contact').length) {
-        contactForm.init();
-      }
-      if($('#page-template').length) {
-        regularPage.init();
-      }
-      $('#cover-photo .close').on('click', function(event) {
-        event.preventDefault();
-        $('#cover-photo').animate({
-          height: '0px',
-        }, 500, function() {
-          $('#cover-photo').remove();
-        });
+    if($('#map-front').length) {
+      frontMap.init();
+    }
+    if($('#contact').length) {
+      contactForm.init();
+    }
+    if($('#page-template').length) {
+      regularPage.init();
+    }
+    $('#cover-photo .close').on('click', function(event) {
+      event.preventDefault();
+      $('#cover-photo').animate({
+        height: '0px',
+      }, 500, function() {
+        $('#cover-photo').remove();
       });
-      $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
-      $(window).on('resize', function() {
-        $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
-      });
-      $(window).trigger('resize');
     });
+    $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
+    $(window).on('resize', function() {
+      $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
+    });
+    $(window).trigger('resize');
   });
 })(jQuery, google, Handlebars);
