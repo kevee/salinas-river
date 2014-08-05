@@ -8,6 +8,7 @@ body {
   line-height: 1.8;
   color: #39351b;
   background-color: white;
+  padding-top: 50px;
 }
 
 .blogs {
@@ -55,8 +56,8 @@ nav.navbar-salinas .navbar-nav>li>a {
   color: #fff;
 }
 
-nav.navbar-salinas .navbar-nav>li>a:hover, nav.navbar-salinas .navbar-nav>li>a:focus, {
-  color: #A8CC18;
+.navbar-default .navbar-nav>li>a:hover, .navbar-default .navbar-nav>li>a:focus {
+  color: #A8CC18 !important;
 }
 
 .slider-down {
@@ -87,13 +88,28 @@ a {
   left: 0px;
   background: rgba(255,255,255,0.9);
   z-index: 100;
-  padding: 15px;
   width: 30%;
-  box-shadow: 0 15px 20px rgba(0,0,0,0.8);
+  overflow: scroll;
 }
 
 #description.tour {
   width: 20%;
+}
+
+#cover-photo {
+  background: url(../img/cover.jpg) no-repeat;
+  background-size: cover;
+  position: absolute;
+  z-index: 90;
+  right: 0;
+}
+
+#cover-photo .close {
+  color: #fff;
+  margin-top: 30px;
+  margin-right: 30px;
+  opacity: 1;
+  font-size: 2em;
 }
 
 #description .slider {
@@ -102,13 +118,6 @@ a {
   font-size: 2em;
   float: right;
   color: #fff;
-}
-
-#description.full-photo {
-  background-image: url(../img/cover.jpg);
-  background-position: top;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .basic-page-wrapper {
@@ -135,6 +144,90 @@ a {
 
 .navbar-salinas {
   margin-bottom: 0;
+}
+
+ul.points {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+ul.points a {
+  color: #000;
+}
+
+ul.points a:hover {
+  text-decoration: none;
+  background: #333;
+}
+
+ul.points p {
+  display: block;
+  font-weight: normal;
+}
+
+ul.points h3 {
+  margin-top: 0;
+  font-size: 20px;
+}
+
+ul.points li {
+  margin: 0;
+  padding: 10px 10px 5px 10px;
+  border-bottom: 1px solid #aaa;
+  position: relative;
+}
+
+ul.points li:hover {
+  background: #eee;
+}
+
+ul.points .current, ul.points .current a {
+  background: #378DFF;
+  color: #fff;
+}
+
+ul.points .current:hover {
+  background: #2B6EC7;
+}
+
+ul.points .current .open {
+  position: absolute;
+  right: 5px;
+  top: 15px;
+  opacity: 0.8;
+  font-size: 1.5em;
+}
+
+#page {
+  position: absolute;
+  z-index: 150;
+  background: #fff;
+  width: 100%;
+  margin-left: 30%;
+}
+
+#page .close-page {
+  background: transparent;
+  color: #646464;
+  border: none;
+}
+
+.cover-photo {
+  position: relative;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  width: 100%;
+}
+
+.cover-photo.contact {
+  background-image: url(../img/covers/contact-large.jpg);
+}
+
+.cover-photo.contributors {
+  background-image: url(../img/covers/contributors-large.jpg);
 }
 
 @media (max-width: 750px) {

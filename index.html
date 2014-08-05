@@ -2,27 +2,33 @@
 layout: plain
 title: Salinas River
 ---
-<div id="description" class="closeable front full-photo">
-  <button class="closer">&times;</button>
-  <button class="slider"><span class="glyphicon glyphicon-chevron-left"></span></button>
-  <button class="slider-down"><span class="glyphicon glyphicon-chevron-down"></span></button>
-  <button class="slider-up"><span class="glyphicon glyphicon-chevron-up"></span></button>
-  <div class="title">
-    <p class="lead">
-      This is a short description of what is going on here. Yay!
-    </p>
-  </div>
-  <div class="row blogs">
-    <div class="col-md-4 col-md-offset-6">
-      {% for post in site.posts limit 4 %}
-        <h3><a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a></h3>
-        <div class="preview">{{ post.subtitle}}</div>
-      {% endfor %}
-    </div>
-  </div>
-  <h3 class="description-title"></h3>
-  <div class="description-body"></div>
+<div id="description">
+
+</div>
+<div id="cover-photo">
+  <button class="close"><span class="glyphicon glyphicon-chevron-up"></span></button>
 </div>
 <div id="map-front" class="map front">
 
 </div>
+
+{% raw %}
+<script id="points-template" type="text/x-handlebars-template">
+
+  <ul class="points">
+  {{#each points}}
+    <li>
+      <a href="#point/{{id}}" data-id="{{id}}">
+        <h3>{{name}}</h3>
+        <p>{{teaser}}</p>
+      </a>
+    </li>
+  {{/each}}
+  </ul>
+</script>
+
+<script id="point-page-template" type="text/x-handlebars-template">
+  <h1><button class="close-page"><span class="glyphicon glyphicon-chevron-left"></span></button>
+  {{data.place.name.value}}</h1>
+</script>
+{% endraw %}
