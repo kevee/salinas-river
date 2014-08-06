@@ -430,7 +430,28 @@
         });
       });
     }
-  }
+  };
+
+  var frontPage = {
+
+    id : 'U-G0GTIAADQAaOTL',
+
+    page : { },
+
+    init : function() {
+      var that = this;
+      Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
+        api.form('everything').ref(currentRef).query('[[:d = at(document.id, "' + that.id +'")]]').submit(function(error, document) {
+          var doc = document.results[0];
+          console.log(doc);
+          $('#cover-photo h1').html(doc.fragments['page.name'].value);
+          $('#cover-photo .content').html(doc.getStructuredText('page.description').asHtml());
+          $(window).trigger('resize');
+        });
+      });
+    }
+  };
+
 
   $(document).ready(function() {
     $.getJSON('https://salinas-river.prismic.io/api', function(data) {
@@ -444,14 +465,10 @@
       if($('#page-template').length) {
         regularPage.init();
       }
-      $('#cover-photo .close, #map-front, #description').on('click', function(event) {
-        event.preventDefault();
-        $('#cover-photo').animate({
-          height: '0px',
-        }, 500, function() {
-          $('#cover-photo').remove();
-        });
-      });
+      if($('#cover-photo.home').length) {
+        frontPage.init();
+      }
+
       $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
       $(window).on('resize', function() {
         $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
