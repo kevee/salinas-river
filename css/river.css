@@ -115,6 +115,8 @@ a {
 
 #cover-photo .content {
   font-size: 2em;
+  color: #fff;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
 }
 
 #cover-photo .btn {
@@ -155,12 +157,17 @@ a {
   display: none;
 }
 
+.content-image {
+  width: 100%;
+}
+
 .description-body a {
   cursor: pointer;
 }
 
 .navbar-salinas {
   margin-bottom: 0;
+  border-bottom: 0;
 }
 
 ul.points {

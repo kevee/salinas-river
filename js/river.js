@@ -13,13 +13,13 @@
 
     icons : {
       default : {
-        url: 'img/icons/marker.png',
+        url: '/img/icons/marker.png',
         scaledSize: new google.maps.Size(30, 40),
         origin: new google.maps.Point(0,0),
         anchor: new google.maps.Point(0, 15)
       },
       camera : {
-        url: 'img/icons/camera.png',
+        url: '/img/icons/camera.png',
         scaledSize: new google.maps.Size(30, 24),
         origin: new google.maps.Point(0,0),
         anchor: new google.maps.Point(12, 15)
@@ -215,10 +215,6 @@
 
     addOverlay : function(callback) {
       var that = this;
-      this.mapOverlay = new google.maps.GroundOverlay(
-      'img/overlay.png',
-          this.overlayBounds);
-      this.mapOverlay.setMap(this.map);
       var riverLayer = new google.maps.KmlLayer({
         url: this.riverKml
       });
@@ -290,6 +286,7 @@
             content : (typeof this.getStructuredText('place.description') !== 'undefined') ? this.getStructuredText('place.description').asHtml() : '',
             sound : this.getText('place.soundcloud'),
             showSlideshow: false,
+            image : (typeof this.fragments['place.image']) ? this.fragments['place.image'].value.main.url : false,
             slideshow: []
           }
           if(typeof this.fragments['place.slideshow_1'] !== 'undefined') {
