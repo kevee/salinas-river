@@ -356,8 +356,6 @@
                        .css('height', ($(window).height() - $('nav.navbar').height()) + 'px');
         $('.map').css('width')
         $('#description, #full-photo').css('height', ($(window).height() - $('nav.navbar').height()) + 'px');
-        $('#cover-photo').css('width', ($(window).width() - $('#description').width()) + 'px')
-        .css('height', ($(window).height() * .5) + 'px');
         if($(window).width() < 751) {
           $('#description').addClass('collapsible');
           $('#description:not(#description.expanded)').css('left', (($(window).width() - 30) * -1) + 'px');
@@ -453,6 +451,9 @@
       $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
       $(window).on('resize', function() {
         $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
+        $('#cover-photo').css('width', $(window).width() + 'px')
+                         .css('height', ($(window).height() - $('.navbar').height()) + 'px');
+
       });
       $(window).trigger('resize');
       $('#description .slide-back').on('click', function() {
