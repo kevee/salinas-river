@@ -384,12 +384,13 @@
     "alerts.less",
     "close.less",
     "component-animations.less",
-    "modals.less",
+    "dropdowns.less",
     "carousel.less"
   ],
   "js": [
     "carousel.js",
-    "modal.js"
+    "modal.js",
+    "collapse.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=5ced4e3661cb54be86cf"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=bc369d3d5ea5e382f98e"
 }

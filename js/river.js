@@ -1,7 +1,7 @@
 (function($, google, Handlebars) {
 
   var prismicEndpoint = 'https://salinas-river.prismic.io/api';
-  var currentRef = '';
+  var currentRef = 'U-GebjIAAIViaLlT';
 
   var frontMap = {
 
@@ -233,7 +233,7 @@
     loadPoints : function() {
       var that = this;
       Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
-        api.form('everything').ref('U-EpiTIAAC0AZ84Y').query('[[:d = at(document.type, "place")]]').submit(function(error, documents) {
+        api.form('everything').ref(currentRef).query('[[:d = at(document.type, "place")]]').submit(function(error, documents) {
           that.points = documents.results;
           var pointSidebar = [];
           $.each(that.points, function() {
@@ -248,6 +248,7 @@
             });
             google.maps.event.addListener(marker, 'click', function() {
               $('ul.points [data-id='+ id +']').trigger('click');
+              that.slideOutDescription();
             });
 
             pointSidebar.push({
@@ -257,7 +258,7 @@
             });
             var source   = $("#points-template").html();
             var template = Handlebars.compile(source);
-            $('#description').html(template({points : pointSidebar }));
+            $('#description .point-wrapper').html(template({points : pointSidebar }));
             $('ul.points a').on('click', function(event) {
               $('.page').remove();
               if($(this).parents('.current').length) {
@@ -277,7 +278,7 @@
     },
 
     openPointPage : function(id) {
-      window.location.href = '#point/page/' + id;
+      window.location.href = '#point-page/' + id;
       $page = $('<div id="page" class="page">');
       $.each(this.points, function() {
         if(this.id == id) {
@@ -286,12 +287,27 @@
           var point = {
             name : this.fragments['place.name'].value,
             content : (typeof this.getStructuredText('place.description') !== 'undefined') ? this.getStructuredText('place.description').asHtml() : '',
-            sound : this.getText('place.soundcloud')
+            sound : this.getText('place.soundcloud'),
+            showSlideshow: false,
+            slideshow: []
+          }
+          if(typeof this.fragments['place.slideshow_1'] !== 'undefined') {
+            point.showSlideshow = true;
+            for(var i = 1; i < 11; i++) {
+              if(typeof this.fragments['place.slideshow_' + i] !== 'undefined') {
+                var image = this.fragments['place.slideshow_' + i];
+                point.slideshow.push({
+                  image: image.value.main.url,
+                  caption: image.value.main.alt,
+                  number: i
+                });
+              }
+            }
           }
           $page.html(template(point));
         }
       });
-      $('body').append($page);
+      $('body').prepend($page);
       $('.close-page').on('click', function() {
         window.location.href = '#point/' + id;
         $('.page').remove();
@@ -310,6 +326,7 @@
       $('ul.points .current .open').remove();
       $('ul.points .current').removeClass('current');
       $('ul.points [data-id=' + id + ']').parents('li').addClass('current').append('<span class="glyphicon glyphicon-chevron-right open"></span>');
+      $(window).trigger('resize');
     },
 
     createMap : function() {
@@ -319,33 +336,42 @@
 	  	});
     },
 
-    resize: function() {
-      $(window).on('resize', function() {
+    slideOutDescription: function() {
+      if(!$('#description').hasClass('collapsible')) {
+        return;
+      }
+      $('#description').animate({
+        left: '0px'
+      },
+      300,
+      function() {
+        $('#descriptoin').addClass('expanded');
+      })
+    },
 
+    resize: function() {
+      var that = this;
+      $(window).on('resize', function() {
         $('#map-front, .basic-page-wrapper').css('width', $(window).width() + 'px')
                        .css('height', ($(window).height() - $('nav.navbar').height()) + 'px');
         $('.map').css('width')
         $('#description, #full-photo').css('height', ($(window).height() - $('nav.navbar').height()) + 'px');
         $('#cover-photo').css('width', ($(window).width() - $('#description').width()) + 'px')
         .css('height', ($(window).height() * .5) + 'px');
+        if($(window).width() < 751) {
+          $('#description').addClass('collapsible');
+          $('#description:not(#description.expanded)').css('left', (($(window).width() - 30) * -1) + 'px');
+          $('#description.collapsed').on('click', that.slideOutDescription);
+        }
+        else {
+          $('#page').css('width', ($(window).width() - $('#description').width()) + 'px');
+        }
       });
       $(window).trigger('resize');
     },
 
     center : function(latLng) {
-      var offsetx = $('#description').width() - 100;
-      var offsety = 0;
-      var point1 = this.map.getProjection().fromLatLngToPoint(
-          (latLng instanceof google.maps.LatLng) ? latLng : this.map.getCenter()
-      );
-      var point2 = new google.maps.Point(
-          ( (typeof(offsetx) == 'number' ? offsetx : 0) / Math.pow(2, this.map.getZoom()) ) || 0,
-          ( (typeof(offsety) == 'number' ? offsety : 0) / Math.pow(2, this.map.getZoom()) ) || 0
-      );
-      this.map.setCenter(this.map.getProjection().fromPointToLatLng(new google.maps.Point(
-          point1.x - point2.x,
-          point1.y + point2.y
-      )));
+      this.map.setCenter(latLng);
     }
   };
 
@@ -389,11 +415,10 @@
       var that = this;
       this.id = window.location.hash.replace('#', '');
       Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
-        api.form('everything').ref('U-EpiTIAAC0AZ84Y').query('[[:d = at(document.id, "' + that.id +'")]]').submit(function(error, document) {
+        api.form('everything').ref(currentRef).query('[[:d = at(document.id, "' + that.id +'")]]').submit(function(error, document) {
           var doc = document.results[0];
           var source   = $("#page-template").html();
           var template = Handlebars.compile(source);
-          console.log(doc);
           $('#page-wrapper').html(template({
             content : doc.getStructuredText('page.description').asHtml(),
             title : doc.fragments['page.name'].value,
@@ -415,7 +440,7 @@
     if($('#page-template').length) {
       regularPage.init();
     }
-    $('#cover-photo .close').on('click', function(event) {
+    $('#cover-photo .close, #map-front, #description').on('click', function(event) {
       event.preventDefault();
       $('#cover-photo').animate({
         height: '0px',
@@ -428,5 +453,14 @@
       $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
     });
     $(window).trigger('resize');
+    $('#description .slide-back').on('click', function() {
+      $('#description').removeClass('expanded');
+      $('#description').animate({
+        left: (($(window).width() - 30) * -1) + 'px'
+      }, 300,
+      function() {
+        $('#description').addClass('collapsed');
+      });
+    });
   });
 })(jQuery, google, Handlebars);

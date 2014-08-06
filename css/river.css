@@ -25,10 +25,6 @@ body {
   display: none;
 }
 
-#carousel {
-  display: none;
-}
-
 h1 {
   font-family: 'Montserrat', "Helvetica Neue", Arial, Helvetica, sans-serif;
   font-size: 2.2em;
@@ -102,6 +98,7 @@ a {
   position: absolute;
   z-index: 90;
   right: 0;
+  padding: 0 15px;
 }
 
 #cover-photo .close {
@@ -201,10 +198,9 @@ ul.points .current .open {
 
 #page {
   position: absolute;
+  right: 0;
   z-index: 150;
   background: #fff;
-  width: 100%;
-  margin-left: 30%;
 }
 
 #page .close-page {
@@ -230,65 +226,42 @@ ul.points .current .open {
   background-image: url(../img/covers/contributors-large.jpg);
 }
 
+#description .slide-back {
+  display: none;
+  font-family: 'Montserrat', "Helvetica Neue", Arial, Helvetica, sans-serif;
+  color: #fff;
+  background: #FF6250;
+  padding: 15px;
+  font-size: 1em;
+  text-align: center;
+  cursor: pointer;
+}
+
 @media (max-width: 750px) {
-  body #description {
-    bottom: 0;
-    left: 0;
+
+  #description .slide-back {
+    display: block;
+  }
+
+  #description {
+    width: 100%;
     background: #fff;
-    z-index: 100;
-    top: auto;
-    padding: 10px;
-    width: 100% !important;
   }
 
-  #description.full-photo {
-    background-image: url(../img/cover-mobile.jpg);
-    bottom: 0;
-    top: auto;
+  #description.collapsed {
+    background: #aaa;
   }
 
-  #description.full-photo h1 {
-    text-shadow: none;
+  #description.collapsed.expanded {
+    background: #fff;
   }
 
-  #description .slider {
+  #cover-photo {
     display: none;
   }
 
-  #description .slider-down, #description .slider-up {
-    display: none;
-    background: transparent;
-    border: none;
-    font-size: 2em;
-    float: right;
-    color: #fff;
-  }
-
-  body #description .slider-up {
-    color: #646464;
-  }
-
-
-  .tempeh-ruben {
-    top: auto !important;
-    bottom: 30px;
-  }
-
-  body .close {
-    right: 20px;
-  }
-
-  .closer {
-    display: none;
-  }
-
-  body .modal-content {
-    border: 0;
-    border-radius: 0;
-  }
-
-  body .modal-dialog {
-    margin: 0;
+  #page {
+    margin-left: 0;
   }
 }
 
@@ -336,18 +309,6 @@ ul.navigation li {
   font-weight: bold;
   font-size: 25px;
   color: #646464;
-  cursor: pointer;
-}
-
-.tempeh-ruben {
-  position: absolute;
-  display: none;
-  top: 60px;
-  left: 30px;
-  background: rgba(255,255,255,0.6);
-  z-index: 100;
-  border: 0;
-  padding: 5px;
   cursor: pointer;
 }
 

@@ -3,10 +3,17 @@ layout: plain
 title: Salinas River
 ---
 <div id="description">
+  <div class="slide-back">
+    Close <span class="glyphicon glyphicon-chevron-left"></span>
+  </div>
+  <div class="point-wrapper">
 
+  </div>
 </div>
 <div id="cover-photo">
   <button class="close"><span class="glyphicon glyphicon-chevron-up"></span></button>
+  <h1>Salinas River Adventure</h1>
+  <p class="lead">More information about the trip.</p>
 </div>
 <div id="map-front" class="map front">
 
@@ -33,6 +40,36 @@ title: Salinas River
   <div class="container">
     {{{sound}}}
     {{{content}}}
+    {{#if showSlideshow}}
+      <div id="carousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          {{#each slideshow}}
+            <li data-target="#carousel" data-slide-to="{{number}}"></li>
+          {{/each}}
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner">
+          {{#each slideshow}}
+            <div class="item">
+              <img src="{{image}}" alt="">
+              <div class="carousel-caption">
+                {{caption}}
+              </div>
+            </div>
+          {{/each}}
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+      </div>
+    {{/if}}
   </div>
 </script>
 {% endraw %}
