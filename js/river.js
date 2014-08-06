@@ -431,35 +431,38 @@
   }
 
   $(document).ready(function() {
-    if($('#map-front').length) {
-      frontMap.init();
-    }
-    if($('#contact').length) {
-      contactForm.init();
-    }
-    if($('#page-template').length) {
-      regularPage.init();
-    }
-    $('#cover-photo .close, #map-front, #description').on('click', function(event) {
-      event.preventDefault();
-      $('#cover-photo').animate({
-        height: '0px',
-      }, 500, function() {
-        $('#cover-photo').remove();
+    $.getJSON('https://salinas-river.prismic.io/api', function(data) {
+      currentRef = data.refs[0].ref;
+      if($('#map-front').length) {
+        frontMap.init();
+      }
+      if($('#contact').length) {
+        contactForm.init();
+      }
+      if($('#page-template').length) {
+        regularPage.init();
+      }
+      $('#cover-photo .close, #map-front, #description').on('click', function(event) {
+        event.preventDefault();
+        $('#cover-photo').animate({
+          height: '0px',
+        }, 500, function() {
+          $('#cover-photo').remove();
+        });
       });
-    });
-    $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
-    $(window).on('resize', function() {
       $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
-    });
-    $(window).trigger('resize');
-    $('#description .slide-back').on('click', function() {
-      $('#description').removeClass('expanded');
-      $('#description').animate({
-        left: (($(window).width() - 30) * -1) + 'px'
-      }, 300,
-      function() {
-        $('#description').addClass('collapsed');
+      $(window).on('resize', function() {
+        $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
+      });
+      $(window).trigger('resize');
+      $('#description .slide-back').on('click', function() {
+        $('#description').removeClass('expanded');
+        $('#description').animate({
+          left: (($(window).width() - 30) * -1) + 'px'
+        }, 300,
+        function() {
+          $('#description').addClass('collapsed');
+        });
       });
     });
   });
