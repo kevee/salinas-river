@@ -257,6 +257,10 @@ ul.points .current .open {
   background-image: url(../img/covers/contributors-large.jpg);
 }
 
+.contact .basic-page-wrapper {
+  position: relative;
+}
+
 #description .slide-back {
   display: none;
   font-family: 'Montserrat', "Helvetica Neue", Arial, Helvetica, sans-serif;
