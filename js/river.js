@@ -280,11 +280,12 @@
     openPointPage : function(id) {
       window.location.href = '#point-page/' + id;
       $page = $('<div id="page" class="page">');
+      var point = {};
       $.each(this.points, function() {
         if(this.id == id) {
           var source   = $("#point-page-template").html();
           var template = Handlebars.compile(source);
-          var point = {
+          point = {
             name : this.fragments['place.name'].value,
             content : (typeof this.getStructuredText('place.description') !== 'undefined') ? this.getStructuredText('place.description').asHtml() : '',
             sound : this.getText('place.soundcloud'),
@@ -297,9 +298,9 @@
               if(typeof this.fragments['place.slideshow_' + i] !== 'undefined') {
                 var image = this.fragments['place.slideshow_' + i];
                 point.slideshow.push({
-                  image: image.value.main.url,
+                  image: image.value.views.medium.url,
                   caption: image.value.main.alt,
-                  number: i
+                  number: i - 1
                 });
               }
             }
@@ -308,6 +309,9 @@
         }
       });
       $('body').prepend($page);
+      if(point.showSlideshow) {
+        $('[data-slide-to=0], #carousel .item:first').addClass('active');
+      }
       $('.close-page').on('click', function() {
         window.location.href = '#point/' + id;
         $('.page').remove();

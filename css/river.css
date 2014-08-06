@@ -15,6 +15,10 @@ body {
   display: none;
 }
 
+.page-content {
+  padding: 0 15px;
+}
+
 .full-photo .blogs {
   display: block;
   border-left: 1px solid #fff;
