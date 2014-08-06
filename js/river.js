@@ -443,10 +443,12 @@
       Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
         api.form('everything').ref(currentRef).query('[[:d = at(document.id, "' + that.id +'")]]').submit(function(error, document) {
           var doc = document.results[0];
-          console.log(doc);
+          console.log(doc.getImage('page.headingImage').views.home.url);
           $('#cover-photo h1').html(doc.fragments['page.name'].value);
           $('#cover-photo .content').html(doc.getStructuredText('page.description').asHtml());
+          $('#cover-photo').css('background-image', 'url(' + doc.getImage('page.headingImage').views.home.url + ')');
           $(window).trigger('resize');
+          $('#cover-photo .tour').show();
         });
       });
     }

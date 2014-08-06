@@ -113,6 +113,22 @@ a {
   font-size: 2em;
 }
 
+#cover-photo .content {
+  font-size: 2em;
+}
+
+#cover-photo .btn {
+  font-family: 'Montserrat', "Helvetica Neue", Arial, Helvetica, sans-serif;
+  background: #FF6250;
+  font-size: 2em;
+  color: #fff;
+  border: none;
+}
+
+#cover-photo .tour {
+  display: none;
+}
+
 #description .slider {
   background: transparent;
   border: none;
