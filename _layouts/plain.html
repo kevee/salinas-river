@@ -63,6 +63,17 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+    {%raw%}
+    <script id="page-template" type="text/x-handlebars-template">
+      <div class="cover-photo" style="background-image: url({{coverPhoto}});">
+
+      </div>
+      <div class="basic-page-wrapper">
+        <h1>{{title}}</h1>
+        {{{content}}}
+      </div>
+    </script>
+    {%endraw%}
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWBbBj23uzLQvb2lkOLsmwVwqFGLYVWdk"></script>
     <script src="/lib/jquery/jquery-1.11.1.js"></script>
     <script src="/lib/bootstrap/js/bootstrap.js"></script>

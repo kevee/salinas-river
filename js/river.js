@@ -434,9 +434,13 @@
           var source   = $("#page-template").html();
           var template = Handlebars.compile(source);
           $('#page-wrapper').html(template({
-            content : doc.getStructuredText('page.description').asHtml(),
+            content : (typeof doc.fragments['page.description'] !== 'undefined') ?
+              doc.getStructuredText('page.description').asHtml() :
+              '',
             title : doc.fragments['page.name'].value,
-            coverPhoto: doc.getImage('page.headingImage').main.url
+            coverPhoto: (typeof doc.fragments['page.headingImage'] !== 'undefined') ?
+              doc.getImage('page.headingImage').main.url :
+              ''
           }));
           $(window).trigger('resize');
         });
