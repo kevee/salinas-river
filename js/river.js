@@ -373,7 +373,7 @@
         if($(window).width() < 751) {
           $('#description').addClass('collapsible');
           $('#description:not(#description.expanded)').css('left', (($(window).width() - 30) * -1) + 'px');
-          $('#description.collapsed').on('click', that.slideOutDescription);
+
         }
         else {
           $('#page').css('width', ($(window).width() - $('#description').width()) + 'px');
@@ -503,6 +503,12 @@
         function() {
           $('#description').addClass('collapsed');
         });
+      });
+      $('#description *:not(.slide-back)').on('click', function() {
+        if($(window).width() > 750 || $(this).hasClass('expanded')) {
+          return;
+        }
+        frontMap.slideOutDescription();
       });
     });
   });

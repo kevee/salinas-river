@@ -250,11 +250,11 @@ ul.points .current .open {
 }
 
 .cover-photo.contact {
-  background-image: url(../img/covers/contact-large.jpg);
+
 }
 
 .cover-photo.contributors {
-  background-image: url(../img/covers/contributors-large.jpg);
+
 }
 
 .contact .basic-page-wrapper {
@@ -284,7 +284,7 @@ ul.points .current .open {
   }
 
   #description.collapsed {
-    background: #aaa;
+    
   }
 
   #description.collapsed.expanded {
