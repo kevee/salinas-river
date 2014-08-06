@@ -161,6 +161,10 @@ a {
   width: 100%;
 }
 
+.tour-intro {
+  padding: 5px;
+}
+
 .description-body a {
   cursor: pointer;
 }
@@ -309,18 +313,17 @@ ul.navigation li {
   margin-right: 15px;
 }
 
-.move {
-  font-size: 3em;
+.controls {
+  padding: 10px;
+  border-bottom: 1px solid #aaa;
 }
 
-.move.next {
+.controls a {
+  font-size: 2em;
+}
+
+.controls .next {
   float: right;
-}
-
-.move.disabled {
-  color: #aaa;
-  text-decoration: none;
-  cursor: default;
 }
 
 .closer {

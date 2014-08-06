@@ -165,6 +165,8 @@
 
     points : {},
 
+    highlightCircle : false,
+
     riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=13',
 
     overlayBounds : new google.maps.LatLngBounds(
@@ -317,6 +319,9 @@
 
     centerOnPoint : function(id) {
       var that = this;
+      if(that.highlightCircle) {
+        that.highlightCircle.setMap(null);
+      }
       $.each(this.points, function() {
         if(this.id == id) {
           var data = this.fragments;
@@ -324,6 +329,14 @@
           that.center(latLng);
         }
       });
+      that.highlightCircle = new google.maps.Circle({
+          map: that.map,
+          fillColor: '#A8CC18',
+          fillOpacity: 0.8,
+          center: latLng,
+
+      });
+
       $('ul.points .current .open').remove();
       $('ul.points .current').removeClass('current');
       $('ul.points [data-id=' + id + ']').parents('li').addClass('current').append('<span class="glyphicon glyphicon-chevron-right open"></span>');
@@ -412,7 +425,9 @@
 
     init : function() {
       var that = this;
-      this.id = window.location.hash.replace('#', '');
+      this.id = ($('#page-wrapper').data('page-id')) ?
+        $('#page-wrapper').data('page-id') :
+        window.location.hash.replace('#', '');
       Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
         api.form('everything').ref(currentRef).query('[[:d = at(document.id, "' + that.id +'")]]').submit(function(error, document) {
           var doc = document.results[0];
