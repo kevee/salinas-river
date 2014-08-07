@@ -418,7 +418,9 @@
       $('#contact').on('submit', this.sendMail);
     },
 
-    sendMail: function() {
+    sendMail: function(event) {
+      event.preventDefault();
+      $(this).find(':submit').attr('disabled', 'disabled').removeClass('btn-primary').addClass('btn-success').attr('value', 'Thanks for contacting us!');
       $.ajax({
         type: "POST",
         url: "https://mandrillapp.com/api/1.0/messages/send.json",
@@ -438,7 +440,7 @@
           }
         }
        }).done(function(response) {
-         console.log(response); // if you're into that sorta thing
+
        });
     }
   };
