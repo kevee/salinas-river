@@ -394,7 +394,7 @@
       $(window).on('resize', function() {
         $('#map-front, .basic-page-wrapper').css('width', $(window).width() + 'px')
                        .css('height', ($(window).height() - $('nav.navbar').height()) + 'px');
-        $('.map').css('width')
+        $('.map').css('width');
         $('#description, #full-photo').css('height', ($(window).height() - $('nav.navbar').height()) + 'px');
         if($(window).width() < 751) {
           $('#description').addClass('collapsible');
@@ -402,7 +402,8 @@
 
         }
         else {
-          $('#page').css('width', ($(window).width() - $('#description').width()) + 'px');
+          $('#page').css('width', ($(window).width() - $('#description').width()) + 'px')
+          .css('height', ($(window).height() - $('nav.navbar').height()) + 'px');
         }
       });
       $(window).trigger('resize');

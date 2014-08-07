@@ -232,6 +232,7 @@ ul.points .current:hover {
   right: 0;
   z-index: 150;
   background: #fff;
+  overflow: scroll;
 }
 
 #page .close-page {
