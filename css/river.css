@@ -87,6 +87,18 @@ a {
   z-index: 1;
 }
 
+#explore .map {
+  position: fixed;
+  width: 30%;
+  right: 0;
+  top: 50;
+  background: #BFC987;
+}
+
+#explore .content {
+  padding: 15px;
+}
+
 #description {
   position: absolute;
   left: 0px;

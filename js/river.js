@@ -498,10 +498,127 @@
     }
   };
 
+  var explore = {
+
+    map : {},
+
+    mapOverlay : {},
+
+    currentPoint : -1,
+
+    currentMarker : false,
+
+    icons : {
+      default : {
+        url: '/img/icons/marker.png',
+        scaledSize: new google.maps.Size(30, 40),
+        origin: new google.maps.Point(0,0),
+        anchor: new google.maps.Point(0, 15)
+      },
+      camera : {
+        url: '/img/icons/camera.png',
+        scaledSize: new google.maps.Size(30, 24),
+        origin: new google.maps.Point(0,0),
+        anchor: new google.maps.Point(12, 15)
+      }
+    },
+
+    mapOptions : {
+      center: new google.maps.LatLng(36.268597, -121.213735),
+      zoom: 9,
+      disableDefaultUI: true,
+      scaleControl: true,
+      scaleControlOptions: {position: google.maps.ControlPosition.BOTTOM_RIGHT},
+      mapTypeId: google.maps.MapTypeId.SATELLITE
+    },
+
+    init : function() {
+      this.resize();
+      this.makeMap();
+      this.loadContent();
+    },
+
+    makeMap : function() {
+      this.map = new google.maps.Map($("#explore .map .google-map").get(0), this.mapOptions);
+    },
+
+    resize : function() {
+      var that = this;
+      $(window).on('resize', function() {
+        $('#explore .map, #explore .map .google-map').css('height', ($(window).height() - $('.nav').height()) + 'px');
+        $('#explore .content').css('margin-right', $('#explore .map').width() + 'px');
+      });
+      $(window).trigger('resize');
+    },
+
+    loadContent : function() {
+      var that = this;
+      var $content = $('#explore .content');
+      var source   = $("#article-template").html();
+      var template = Handlebars.compile(source);
+
+      Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
+        api.form('everything').ref(currentRef).query('[[:d = at(document.type, "place")]]').orderings('[my.place.tour]').submit(function(error, documents) {
+          $.each(documents.results, function(index, page) {
+            var article = {
+              id : this.id,
+              name : this.fragments['place.name'].value,
+              content : (typeof this.getStructuredText('place.description') !== 'undefined') ? this.getStructuredText('place.description').asHtml() : '',
+              sound : this.getText('place.soundcloud'),
+              showSlideshow: false,
+              slideshow: [],
+              position : this.fragments['place.position'].value
+            };
+            if(typeof this.fragments['place.image'] !== 'undefined') {
+              if(typeof this.fragments['place.image'].value.views.full !== 'undefined') {
+                article.image = this.fragments['place.image'].value.views.full.url;
+              }
+              else {
+                article.image = this.fragments['place.image'].value.main.url;
+              }
+            }
+
+            if(typeof this.fragments['place.slideshow_1'] !== 'undefined') {
+              article.showSlideshow = true;
+              for(var i = 1; i < 11; i++) {
+                if(typeof this.fragments['place.slideshow_' + i] !== 'undefined') {
+                  var image = this.fragments['place.slideshow_' + i];
+                  article.slideshow.push({
+                    image: image.value.views.medium.url,
+                    caption: image.value.main.alt,
+                    number: i - 1
+                  });
+                }
+              }
+            }
+            $content.append(template(article));
+            $('#' + this.id).on('scrollSpy:enter', function() {
+              var latLng = new google.maps.LatLng($(this).data('latitude'), $(this).data('longitude'));
+              var icon = 'default';
+              var marker = new google.maps.Marker({
+                  position: latLng,
+                  map: that.map,
+                  icon: that.icons[icon]
+              });
+              that.map.setCenter(latLng);
+              that.map.setZoom(16);
+            }).scrollSpy({
+              offset: {
+                top: 50
+              }
+            });
+          });
+        });
+      });
+    }
+  };
 
   $(document).ready(function() {
     $.getJSON('https://salinas-river.prismic.io/api', function(data) {
       currentRef = data.refs[0].ref;
+      if($('#explore').length) {
+        explore.init();
+      }
       if($('#map-front').length) {
         frontMap.init();
       }
