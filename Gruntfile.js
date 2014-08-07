@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     uglify: {
       river: {
         files: {
-          'js/river.min.js': ['lib/jquery/jquery-1.11.1.js', 'lib/handelbars/handelbars-v1.3.0.js', 'lib/prismic/prismic.io-1.0.12.js', 'lib/bootstrap/js/bootstrap.js']
+          'js/river.min.js': ['lib/jquery/jquery-1.11.1.js', 'lib/handelbars/handelbars-v1.3.0.js', 'lib/prismic/prismic.io-1.0.12.js', 'lib/bootstrap/js/bootstrap.js', 'js/river.js']
         }
       }
     },

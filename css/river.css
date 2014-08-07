@@ -25,6 +25,10 @@ body {
   padding-left: 15px;
 }
 
+img.full-photo {
+  width: 100%;
+}
+
 .slider-up {
   display: none;
 }
