@@ -306,7 +306,7 @@
             content : (typeof this.getStructuredText('place.description') !== 'undefined') ? this.getStructuredText('place.description').asHtml() : '',
             sound : this.getText('place.soundcloud'),
             showSlideshow: false,
-            image : (typeof this.fragments['place.image'] !== 'undefined') ? this.fragments['place.image'].value.main.url : false,
+            image : (typeof this.fragments['place.image'] !== 'undefined') ? this.fragments['place.image'].value.views.full.url : false,
             slideshow: []
           }
           if(typeof this.fragments['place.slideshow_1'] !== 'undefined') {
