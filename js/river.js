@@ -32,6 +32,17 @@
       center: new google.maps.LatLng(36.268597, -121.213735),
       zoom: 9,
       disableDefaultUI: true,
+      scaleControl: true,
+      scaleControlOptions: {position: google.maps.ControlPosition.BOTTOM_RIGHT},
+      mapTypeControl: true,
+      mapTypeControlOptions: {
+        mapTypeIds: [
+          google.maps.MapTypeId.TERRAIN,
+          google.maps.MapTypeId.SATELLITE,
+          google.maps.MapTypeId.ROADMAP
+        ],
+        position: google.maps.ControlPosition.BOTTOM_RIGHT
+      },
       mapTypeId: google.maps.MapTypeId.TERRAIN,
       styles: [
         {
@@ -334,6 +345,7 @@
           var data = this.fragments;
           var latLng = new google.maps.LatLng(data['place.position'].value.latitude, data['place.position'].value.longitude);
           that.center(latLng);
+          that.map.setZoom(15);
           this.marker.setAnimation(google.maps.Animation.BOUNCE);
           var marker = this.marker;
           setTimeout(function() {
