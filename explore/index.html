@@ -2,83 +2,60 @@
 layout: plain
 title: Salinas River
 ---
-<div id="description">
-  <div class="slide-back">
-    Close <span class="glyphicon glyphicon-chevron-left"></span>
+<div id="explore">
+
+  <div class="map">
+    <div class="google-map">
+
+    </div>
   </div>
-  <div class="tour-intro">
-    <p>What does the Salinas River look like? How does it sound, smell, and feel? Who calls the river home? The Salinas River contains bright, shining stories that seem to be hiding in plain sight.</p>
-  </div>
-  <div class="controls">
-    <a href="#previous" class="previous">
-      <span class="glyphicon glyphicon-chevron-left"></span>
-    </a>
-    <a href="#next" class="next">
-      <span class="glyphicon glyphicon-chevron-right"></span>
-    </a>
-  </div>
-  <div class="point-wrapper">
+  <div class="content">
+    <h1>Explore</h1>
 
   </div>
 </div>
-<div id="map-front" class="map front">
 
-</div>
+{%raw%}
+<script id="article-template" type="text/x-handlebars-template">
+  <div class="place" id="{{id}}" data-latitude="{{position.latitude}}" data-longitude="{{position.longitude}}">
+    <h2>{{name}}</h2>
+    <div class="page-content">
+      {{{sound}}}
+      {{#if image }}
+        <img src="{{image}}" alt="" class="content-image"/>
+      {{/if}}
+      {{{content}}}
+      {{#if showSlideshow}}
+        <div id="carousel" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            {{#each slideshow}}
+              <li data-target="#carousel" data-slide-to="{{number}}"></li>
+            {{/each}}
+          </ol>
 
-{% raw %}
-<script id="points-template" type="text/x-handlebars-template">
-
-  <ul class="points">
-  {{#each points}}
-    <li>
-      <a href="#point/{{id}}" data-id="{{id}}">
-        <h3>{{name}}</h3>
-        <p>{{teaser}}</p>
-      </a>
-    </li>
-  {{/each}}
-  </ul>
-</script>
-
-<script id="point-page-template" type="text/x-handlebars-template">
-  <h1><button class="close-page"><span class="glyphicon glyphicon-chevron-left"></span></button>
-  {{name}}</h1>
-  <div class="page-content">
-    {{{sound}}}
-    {{#if image }}
-      <img src="{{image}}" alt="" class="content-image"/>
-    {{/if}}
-    {{{content}}}
-    {{#if showSlideshow}}
-      <div id="carousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-          {{#each slideshow}}
-            <li data-target="#carousel" data-slide-to="{{number}}"></li>
-          {{/each}}
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
-          {{#each slideshow}}
-            <div class="item">
-              <img src="{{image}}" alt="">
-              <div class="carousel-caption">
-                {{caption}}
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner">
+            {{#each slideshow}}
+              <div class="item">
+                <img src="{{image}}" alt="">
+                <div class="carousel-caption">
+                  {{caption}}
+                </div>
               </div>
-            </div>
-          {{/each}}
-        </div>
+            {{/each}}
+          </div>
 
-        <!-- Controls -->
-        <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left"></span>
-        </a>
-        <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right"></span>
-        </a>
-      </div>
-    {{/if}}
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+          </a>
+          <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+          </a>
+        </div>
+      {{/if}}
+    </div>
   </div>
 </script>
 {% endraw %}
