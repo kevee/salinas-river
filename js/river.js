@@ -244,6 +244,8 @@
                 map: that.map,
                 icon: that.icons[icon]
             });
+            this.marker = marker;
+            this.icon = icon;
             google.maps.event.addListener(marker, 'click', function() {
               $('ul.points [data-id='+ id +']').trigger('click');
               that.slideOutDescription();
@@ -319,22 +321,17 @@
 
     centerOnPoint : function(id) {
       var that = this;
-      if(that.highlightCircle) {
-        that.highlightCircle.setMap(null);
-      }
       $.each(this.points, function() {
         if(this.id == id) {
           var data = this.fragments;
           var latLng = new google.maps.LatLng(data['place.position'].value.latitude, data['place.position'].value.longitude);
           that.center(latLng);
+          this.marker.setAnimation(google.maps.Animation.BOUNCE);
+          var marker = this.marker;
+          setTimeout(function() {
+            marker.setAnimation(null);
+          }, 1800);
         }
-      });
-      that.highlightCircle = new google.maps.Circle({
-          map: that.map,
-          fillColor: '#A8CC18',
-          fillOpacity: 0.8,
-          center: latLng,
-          radius: 100
       });
 
       $('ul.points .current .open').remove();
