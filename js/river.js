@@ -9,6 +9,8 @@
 
     mapOverlay : {},
 
+    currentPoint : -1,
+
     currentMarker : false,
 
     icons : {
@@ -184,6 +186,7 @@
       var that = this;
       this.resize();
       this.createMap();
+      this.bindControls();
       this.addOverlay(function() {
         that.loadPoints();
       });
@@ -202,17 +205,6 @@
       else {
         $('#previous').removeClass('disabled');
       }
-    },
-
-    showCurrentPoint : function() {
-      var point = this.tourPoints[this.currentTourPoint],
-          latLng = new google.maps.LatLng( point.geometry.coordinates[1], point.geometry.coordinates[0] );
-      this.map.panTo(latLng);
-      this.map.setZoom(13);
-      this.infoWindow.setContent('<h3>' + point.properties.title + '</h3>' + '<p>' + point.properties.description + '</p>');
-      var anchor = new google.maps.MVCObject();
-      anchor.set("position", latLng);
-      this.infoWindow.open(this.map, anchor);
     },
 
     addOverlay : function(callback) {
@@ -277,6 +269,22 @@
       });
     },
 
+    bindControls : function() {
+      var that = this;
+      $('.controls a').on('click', function(event) {
+        event.preventDefault();
+        var increase = ($(this).hasClass('next')) ? 1 : -1;
+        that.currentPoint = that.currentPoint + increase;
+        if(that.currentPoint < 0) {
+          that.currentPoint = 0;
+        }
+        if(that.currentPoint > that.points.length) {
+          that.currentPoint = that.points.length;
+        }
+        that.centerOnPoint(that.points[that.currentPoint].id);
+      });
+    },
+
     openPointPage : function(id) {
       window.location.href = '#point-page/' + id;
       $page = $('<div id="page" class="page">');
@@ -331,6 +339,11 @@
           setTimeout(function() {
             marker.setAnimation(null);
           }, 1800);
+        }
+        else {
+          if(typeof this.marker !== 'undefined') {
+            this.marker.setAnimation(null);
+          }
         }
       });
 
@@ -456,7 +469,6 @@
       Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
         api.form('everything').ref(currentRef).query('[[:d = at(document.id, "' + that.id +'")]]').submit(function(error, document) {
           var doc = document.results[0];
-          console.log(doc.getImage('page.headingImage').views.home.url);
           $('#cover-photo h1').html(doc.fragments['page.name'].value);
           $('#cover-photo .content').html(doc.getStructuredText('page.description').asHtml());
           $('#cover-photo').css('background-image', 'url(' + doc.getImage('page.headingImage').views.home.url + ')');
