@@ -528,9 +528,12 @@
       zoom: 9,
       disableDefaultUI: true,
       scaleControl: true,
+      zoomControl: true,
       scaleControlOptions: {position: google.maps.ControlPosition.BOTTOM_RIGHT},
-      mapTypeId: google.maps.MapTypeId.SATELLITE
+      mapTypeId: google.maps.MapTypeId.HYBRID
     },
+
+    riverKml: 'http://kevee.org/salinas-river/data/river.kml?v=13',
 
     init : function() {
       this.resize();
@@ -540,6 +543,11 @@
 
     makeMap : function() {
       this.map = new google.maps.Map($("#explore .map .google-map").get(0), this.mapOptions);
+      var riverLayer = new google.maps.KmlLayer({
+        url: this.riverKml,
+        preserveViewport: true
+      });
+      riverLayer.setMap(this.map);
     },
 
     resize : function() {
@@ -600,11 +608,13 @@
                   map: that.map,
                   icon: that.icons[icon]
               });
-              that.map.setCenter(latLng);
-              that.map.setZoom(16);
+              that.map.panTo(latLng);
+              that.map.setZoom(14);
+              //window.location.hash = $(this).attr('id');
             }).scrollSpy({
               offset: {
-                top: 50
+                top: 50,
+                bottom: ($(window).height() * .2) * -1
               }
             });
           });
