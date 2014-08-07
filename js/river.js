@@ -334,7 +334,7 @@
           fillColor: '#A8CC18',
           fillOpacity: 0.8,
           center: latLng,
-
+          radius: 100
       });
 
       $('ul.points .current .open').remove();
@@ -480,7 +480,7 @@
       if($('#contact').length) {
         contactForm.init();
       }
-      if($('#page-template').length) {
+      if($('#page-wrapper').length) {
         regularPage.init();
       }
       if($('#cover-photo.home').length) {
