@@ -103,6 +103,7 @@ a {
   z-index: 90;
   right: 0;
   padding: 0 15px;
+  overflow: scroll;
 }
 
 #cover-photo .close {
