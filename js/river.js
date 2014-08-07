@@ -517,7 +517,7 @@
 
       $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
       $(window).on('resize', function() {
-        $('.cover-photo').css('height', ($(window).height() * .5) + 'px');
+        $('.cover-photo').css('height', ($(window).height() * .7) + 'px');
         $('#cover-photo').css('width', $(window).width() + 'px')
                          .css('height', ($(window).height() - $('.navbar').height()) + 'px');
 

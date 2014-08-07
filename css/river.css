@@ -97,7 +97,7 @@ a {
 }
 
 #cover-photo {
-  background: url(../img/cover.jpg) no-repeat;
+  background-color: #A8CC18;
   background-size: cover;
   position: absolute;
   z-index: 90;
