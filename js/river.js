@@ -428,7 +428,7 @@
             'from_email': $('#email').val(),
             'to': [
                 {
-                  'email': 'kevin@csumb.edu',
+                  'email': 'contact@salinasriver.org',
                   'type': 'to'
                 }
               ],
