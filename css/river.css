@@ -127,6 +127,11 @@ a {
   border: none;
 }
 
+ul.points .current a.btn-salinas, .btn-salinas {
+  background: #FF6250;
+  color: #fff;
+}
+
 #cover-photo .tour {
   display: none;
 }
@@ -219,14 +224,6 @@ ul.points .current:hover {
   background: #2B6EC7;
 }
 
-ul.points .current .open {
-  position: absolute;
-  right: 5px;
-  top: 15px;
-  opacity: 0.8;
-  font-size: 1.5em;
-}
-
 #page {
   position: absolute;
   right: 0;
@@ -284,7 +281,7 @@ ul.points .current .open {
   }
 
   #description.collapsed {
-    
+
   }
 
   #description.collapsed.expanded {

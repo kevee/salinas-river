@@ -41,7 +41,7 @@
           google.maps.MapTypeId.SATELLITE,
           google.maps.MapTypeId.ROADMAP
         ],
-        position: google.maps.ControlPosition.BOTTOM_RIGHT
+        position: google.maps.ControlPosition.UPPER_RIGHT
       },
       mapTypeId: google.maps.MapTypeId.TERRAIN,
       styles: [
@@ -234,7 +234,7 @@
     loadPoints : function() {
       var that = this;
       Prismic.Api('https://salinas-river.prismic.io/api', function(error, api) {
-        api.form('everything').ref(currentRef).query('[[:d = at(document.type, "place")]]').submit(function(error, documents) {
+        api.form('everything').ref(currentRef).query('[[:d = at(document.type, "place")]]').orderings('[my.place.tour]').submit(function(error, documents) {
           that.points = documents.results;
           var pointSidebar = [];
           $.each(that.points, function() {
@@ -264,10 +264,6 @@
             $('#description .point-wrapper').html(template({points : pointSidebar }));
             $('ul.points a').on('click', function(event) {
               $('.page').remove();
-              if($(this).parents('.current').length) {
-                event.preventDefault();
-                that.openPointPage($(this).data('id'));
-              }
               that.centerOnPoint($(this).data('id'));
               $('#cover-photo').remove();
             });
@@ -293,6 +289,7 @@
           that.currentPoint = that.points.length;
         }
         that.centerOnPoint(that.points[that.currentPoint].id);
+        $('.page').remove();
       });
     },
 
@@ -309,7 +306,7 @@
             content : (typeof this.getStructuredText('place.description') !== 'undefined') ? this.getStructuredText('place.description').asHtml() : '',
             sound : this.getText('place.soundcloud'),
             showSlideshow: false,
-            image : (typeof this.fragments['place.image']) ? this.fragments['place.image'].value.main.url : false,
+            image : (typeof this.fragments['place.image'] !== 'undefined') ? this.fragments['place.image'].value.main.url : false,
             slideshow: []
           }
           if(typeof this.fragments['place.slideshow_1'] !== 'undefined') {
@@ -359,9 +356,19 @@
         }
       });
 
-      $('ul.points .current .open').remove();
+      $('ul.points .current .btn').remove();
       $('ul.points .current').removeClass('current');
-      $('ul.points [data-id=' + id + ']').parents('li').addClass('current').append('<span class="glyphicon glyphicon-chevron-right open"></span>');
+      var $button = $('<a class="btn btn-salinas btn-sm">Read more <span class="glyphicon glyphicon-chevron-right"></span></a>');
+
+      $('ul.points [data-id=' + id + ']')
+        .parents('li')
+        .addClass('current')
+        .append($button);
+        $button.on('click', function(event) {
+          event.preventDefault();
+          that.openPointPage(id);
+          $(window).trigger('resize');
+        });
       $(window).trigger('resize');
     },
 
