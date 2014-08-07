@@ -241,7 +241,8 @@
             var data = this.fragments;
             var id = this.id
             var latLng = new google.maps.LatLng(data['place.position'].value.latitude, data['place.position'].value.longitude);
-            var icon = (typeof data['place.image'] !== 'undefined') ? 'camera' : 'default';
+            //var icon = (typeof data['place.image'] !== 'undefined') ? 'camera' : 'default';
+            var icon = 'default';
             var marker = new google.maps.Marker({
                 position: latLng,
                 map: that.map,
@@ -257,7 +258,9 @@
             pointSidebar.push({
               id : this.id,
               name: data['place.name'].value,
-              teaser: data['place.shortDescription'].value,
+              teaser: (typeof data['place.shortDescription'] !== 'undefined') ?
+                data['place.shortDescription'].value :
+                '',
             });
             var source   = $("#points-template").html();
             var template = Handlebars.compile(source);
@@ -342,17 +345,11 @@
           var data = this.fragments;
           var latLng = new google.maps.LatLng(data['place.position'].value.latitude, data['place.position'].value.longitude);
           that.center(latLng);
-          that.map.setZoom(15);
-          this.marker.setAnimation(google.maps.Animation.BOUNCE);
+          that.map.setZoom(14);
           var marker = this.marker;
           setTimeout(function() {
             marker.setAnimation(null);
           }, 1800);
-        }
-        else {
-          if(typeof this.marker !== 'undefined') {
-            this.marker.setAnimation(null);
-          }
         }
       });
 
