@@ -21,6 +21,12 @@ title: Salinas River Contact Us
       </label>
       <input type="email" class="form-control" id="email">
     </div>
+    <div class="form-group">
+      <label for="city">
+        Your city (optional)
+      </label>
+      <input type="text" class="form-control" id="city">
+    </div>
 
     <div class="form-group">
       <label for="message">
@@ -47,12 +53,17 @@ title: Salinas River Contact Us
   	<input type="email" value="" name="EMAIL" class="form-control required email" id="mce-EMAIL">
   </div>
   <div class="mc-field-group form-group">
-  	<label for="mce-FNAME">First Name </label>
-  	<input type="text" value="" name="FNAME" class="form-control " id="mce-FNAME">
+  	<label for="mce-FNAME">First Name   <span class="asterisk">*</span></label>
+  	<input type="text" value="" name="FNAME" class="form-control required" id="mce-FNAME">
   </div>
   <div class="mc-field-group form-group">
-  	<label for="mce-LNAME">Last Name </label>
-  	<input type="text" value="" name="LNAME" class="form-control " id="mce-LNAME">
+  	<label for="mce-LNAME">Last Name   <span class="asterisk">*</span></label>
+  	<input type="text" value="" name="LNAME" class="form-control required" id="mce-LNAME">
+  </div>
+  <div class="mc-field-group form-group">
+    <label for="mce-MMERGE3">Zip Code  <span class="asterisk">*</span>
+  </label>
+    <input type="text" value="" name="MMERGE3" class="form-control required" id="mce-MMERGE3">
   </div>
   	<div id="mce-responses" class="clear">
   		<div class="response" id="mce-error-response" style="display:none"></div>

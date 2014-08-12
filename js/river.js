@@ -423,6 +423,7 @@
       event.preventDefault();
       $(this).find(':submit').attr('disabled', 'disabled').removeClass('btn-primary').addClass('btn-success').attr('value', 'Thanks for contacting us!');
       var contactQuestion = ($('#publish').val()) ? 'OK TO PUBLISH' : 'NOT OK TO PUBLISH';
+      var city = $('#city').val();
       $.ajax({
         type: "POST",
         url: "https://mandrillapp.com/api/1.0/messages/send.json",
@@ -438,7 +439,7 @@
               ],
             'autotext': 'true',
             'subject': 'Contact form',
-            'html': contactQuestion + "\n" + $('#message').val()
+            'html': 'City: ' + city + "\n" + contactQuestion + "\n" + $('#message').val()
           }
         }
        }).done(function(response) {
