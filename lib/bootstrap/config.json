@@ -376,6 +376,7 @@
     "tables.less",
     "forms.less",
     "buttons.less",
+    "responsive-utilities.less",
     "glyphicons.less",
     "button-groups.less",
     "input-groups.less",
@@ -392,5 +393,5 @@
     "modal.js",
     "collapse.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=bc369d3d5ea5e382f98e"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=5a5a6f6da0da24dd4e93"
 }

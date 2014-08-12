@@ -422,6 +422,7 @@
     sendMail: function(event) {
       event.preventDefault();
       $(this).find(':submit').attr('disabled', 'disabled').removeClass('btn-primary').addClass('btn-success').attr('value', 'Thanks for contacting us!');
+      var contactQuestion = ($('#publish').val()) ? 'OK TO PUBLISH' : 'NOT OK TO PUBLISH';
       $.ajax({
         type: "POST",
         url: "https://mandrillapp.com/api/1.0/messages/send.json",
@@ -437,7 +438,7 @@
               ],
             'autotext': 'true',
             'subject': 'Contact form',
-            'html': $('#message').val()
+            'html': contactQuestion + "\n" + $('#message').val()
           }
         }
        }).done(function(response) {

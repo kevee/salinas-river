@@ -150,6 +150,10 @@ a {
   border: none;
 }
 
+.contact-form .btn {
+  font-family: 'Montserrat', "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
 ul.points .current a.btn-salinas, .btn-salinas {
   background: #FF6250;
   color: #fff;
