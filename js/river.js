@@ -557,6 +557,7 @@
       $(window).on('resize', function() {
         $('#explore .map, #explore .map .google-map').css('height', ($(window).height() - $('.nav').height()) + 'px');
         $('#explore .content').css('margin-right', $('#explore .map').width() + 'px');
+        $('#explore .map.full').css('width', $(window).width() + 'px');
       });
       $(window).trigger('resize');
     },
